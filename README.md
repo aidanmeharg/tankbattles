@@ -19,6 +19,15 @@ Once a player has lost all 3 lives, their opponent is proclaimed victorious!
 I decided upon this project idea because I have had so much fun in the 
 past playing simple 2-player games (ex. Fireboy and Watergirl)
 
+### User Stories
+
+- As a user, I want to be able to fire multiple missiles from my tank and see them rendered within the game panel
+- As a user, I want to be able to keep track of how much health my tank has left
+- As a user, I want to take damage when enemy missiles collide with my tank
+- As a user, I want my tank to be bounded by the edges of the screen, and take damage if I try to drive 
+out of the screen
+
+
 
 
 
