@@ -6,7 +6,7 @@ package model;
 
 public class Missile {
 
-    public static final int MISSILE_SPEED = 4;
+    public static final int MISSILE_SPEED = 2 * Tank.TANK_SPEED;
 
     private int xcoord;
     private int ycoord;

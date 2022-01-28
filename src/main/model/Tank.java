@@ -71,6 +71,10 @@ public class Tank {
         this.ycoord = y;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
 
 
 }

@@ -7,8 +7,8 @@ taking down your opponent.
 
 Both players will operate their respective tanks with their own 
 keyboard commands:
-- Player 1 using the arrow keys for movement and **"/"** key to shoot
-- Player 2 using **"w,a,s,d"** keys for movement and the spacebar to shoot
+- Player 1 using **"w,a,s,d"** keys for movement and the spacebar to shoot
+- Player 2 using the arrow keys for movement and **"/"** key to shoot
 
 Each player will begin with 3 lives which can be lost in 2 ways:
 - Driving your vehicle into the boundaries (edge of screen)
