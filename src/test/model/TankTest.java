@@ -96,4 +96,11 @@ class TankTest {
         assertEquals(TEST_Y + Tank.TANK_SPEED, tank.getYcoord());
     }
 
+    @Test
+    void testSetCoordinates() {
+        tank.setCoordinates(20, 25);
+        assertEquals(20, tank.getXcoord());
+        assertEquals(25, tank.getYcoord());
+    }
+
 }

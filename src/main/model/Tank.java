@@ -11,6 +11,7 @@ public class Tank {
     private int ycoord;
     private int dx;
     private int dy;
+
     public static final int TANK_SPEED = 2;
     public static final int STARTING_HEALTH = 3;
 
@@ -63,6 +64,11 @@ public class Tank {
     public void setDirection(int dx, int dy) {
         this.dx = dx;
         this.dy = dy;
+    }
+
+    public void setCoordinates(int x, int y) {
+        this.xcoord = x;
+        this.ycoord = y;
     }
 
 
