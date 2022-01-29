@@ -119,12 +119,18 @@ public class TankGame {
     private void handleCollisions(Tank player) {
         ArrayList<Missile> toRemove = new ArrayList<>();
         for (Missile next : missiles) {
-            if (next.getXcoord() == player.getXcoord()) {
-                if (next.getYcoord() == player.getYcoord()) {
-                    player.decreaseHealth();
-                    toRemove.add(next);
+            if (player.getXcoord() - 2 < next.getXcoord()) {
+                if (next.getXcoord() < player.getXcoord() + 2) {
+                    if (player.getYcoord() - 1 < next.getYcoord()) {
+                        if (next.getYcoord() < player.getYcoord() + 1) {
+                            player.decreaseHealth();
+                            toRemove.add(next);
+
+                        }
+                    }
                 }
             }
+
         }
         missiles.removeAll(toRemove);
     }
@@ -146,7 +152,7 @@ public class TankGame {
         return this.playerTwo;
     }
 
-    public boolean getGameOver() {
+    public boolean isEnded() {
         return checkGameOver();
     }
 

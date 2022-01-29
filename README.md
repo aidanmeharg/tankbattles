@@ -7,8 +7,8 @@ taking down your opponent.
 
 Both players will operate their respective tanks with their own 
 keyboard commands:
-- Player 1 using **"w,a,s,d"** keys for movement and the spacebar to shoot
-- Player 2 using the arrow keys for movement and **"/"** key to shoot
+- Player 1 using **"w, a, s, d"** keys for movement and **"c"** to shoot
+- Player 2 using **"i, j, k, l"** keys for movement and **"n"** to shoot
 
 Each player will begin with 3 lives which can be lost in 2 ways:
 - Driving your vehicle into the boundaries (edge of screen)
@@ -17,7 +17,7 @@ Each player will begin with 3 lives which can be lost in 2 ways:
 Once a player has lost all 3 lives, their opponent is proclaimed victorious!
 
 I decided upon this project idea because I have had so much fun in the 
-past playing simple 2-player games (ex. Fireboy and Watergirl)
+past playing simple 2-player games (ex. Fireboy and Watergirl, Tanks 2 etc.)
 
 ### User Stories
 

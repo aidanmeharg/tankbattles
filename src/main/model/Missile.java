@@ -6,6 +6,7 @@ package model;
 
 public class Missile {
 
+    // INVARIANT: MISSILE_SPEED must be > TANK_SPEED
     public static final int MISSILE_SPEED = 2 * Tank.TANK_SPEED;
 
     private int xcoord;

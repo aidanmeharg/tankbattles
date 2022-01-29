@@ -12,7 +12,7 @@ public class Tank {
     private int dx;
     private int dy;
 
-    public static final int TANK_SPEED = 2;
+    public static final int TANK_SPEED = 1;
     public static final int STARTING_HEALTH = 3;
 
 
