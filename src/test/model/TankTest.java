@@ -25,6 +25,7 @@ class TankTest {
         assertEquals(TEST_DX, tank.getDx());
         assertEquals(TEST_DY, tank.getDy());
         assertEquals(Tank.STARTING_HEALTH, tank.getHealth());
+        assertEquals(0, tank.getCoolDown());
     }
 
     @Test
@@ -101,6 +102,28 @@ class TankTest {
         tank.setCoordinates(20, 25);
         assertEquals(20, tank.getXcoord());
         assertEquals(25, tank.getYcoord());
+    }
+
+    @Test
+    void testResetCoolDown() {
+        tank.resetCoolDown();
+        assertEquals(Tank.COOL_DOWN_TIME, tank.getCoolDown());
+    }
+
+    @Test
+    void testDecreaseCoolDownAlreadyZero() {
+        tank.decreaseCoolDown();
+        assertEquals(0, tank.getCoolDown());
+    }
+
+    @Test
+    void testDecreaseCoolDown() {
+        tank.resetCoolDown();
+        tank.decreaseCoolDown();
+        assertEquals(Tank.COOL_DOWN_TIME - 1, tank.getCoolDown());
+
+        tank.decreaseCoolDown();
+        assertEquals(Tank.COOL_DOWN_TIME - 2, tank.getCoolDown());
     }
 
 }

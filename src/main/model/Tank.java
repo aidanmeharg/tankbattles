@@ -1,7 +1,9 @@
 package model;
 
 /*
- * represents a tank that has a position, movement direction, and health status
+ * represents a tank that has a position, movement direction, health status,
+ * and cooldown time required before next missile can be shot
+ * (coolDown should be set to zero when new tank is initialized)
  */
 
 public class Tank {
@@ -11,7 +13,10 @@ public class Tank {
     private int ycoord;
     private int dx;
     private int dy;
+    private int coolDown;
 
+    // COOL_DOWN_TIME must be >= 0
+    public static final int COOL_DOWN_TIME = 10;
     public static final int TANK_SPEED = 1;
     public static final int STARTING_HEALTH = 3;
 
@@ -23,6 +28,7 @@ public class Tank {
         this.dx = dx;
         this.dy = dy;
         this.health = STARTING_HEALTH;
+        this.coolDown = 0;
     }
 
     // MODIFIES: this
@@ -53,10 +59,28 @@ public class Tank {
         return this.dy;
     }
 
+    public int getCoolDown() {
+        return this.coolDown;
+    }
+
     // MODIFIES: this
     // EFFECTS: decreases tank health by 1
     public void decreaseHealth() {
         this.health--;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: decreases cannon cool down by 1 if it is not at zero already
+    public void decreaseCoolDown() {
+        if (this.coolDown > 0) {
+            this.coolDown--;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets tank's coolDown time to COOL_DOWN_TIME
+    public void resetCoolDown() {
+        this.coolDown = COOL_DOWN_TIME;
     }
 
     // MODIFIES: this
@@ -66,11 +90,16 @@ public class Tank {
         this.dy = dy;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets tank xcoord and ycoord to (x, y)
     public void setCoordinates(int x, int y) {
         this.xcoord = x;
         this.ycoord = y;
     }
 
+    // REQUIRES: health >= 0
+    // MODIFIES: this
+    // EFFECTS: sets tank health to given value
     public void setHealth(int health) {
         this.health = health;
     }

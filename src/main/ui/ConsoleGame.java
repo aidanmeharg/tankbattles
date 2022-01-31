@@ -10,6 +10,7 @@ import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 
@@ -144,30 +145,30 @@ public class ConsoleGame {
                 .showDialog(endGUI);
     }
 
+    // MODIFIES: this
+    // EFFECTS: draws player's health onto game panel
     private void drawHealthBars() {
         TextGraphics redText = screen.newTextGraphics();
         redText.setForegroundColor(TextColor.ANSI.RED);
-        redText.putString(10, 1, "RED HEALTH: ");
-
-        redText = screen.newTextGraphics();
-        redText.setForegroundColor(TextColor.ANSI.RED);
-        redText.putString(23, 1, String.valueOf(game.getPlayerOne().getHealth()));
+        redText.putString(10, 1, "RED HEALTH: " + String.valueOf(game.getPlayerOne().getHealth()));
 
         TextGraphics blueText = screen.newTextGraphics();
         blueText.setForegroundColor(TextColor.ANSI.BLUE);
-        blueText.putString(55, 1, "BLUE HEALTH: ");
-
-        blueText = screen.newTextGraphics();
-        blueText.setForegroundColor(TextColor.ANSI.BLUE);
-        blueText.putString(69, 1, String.valueOf(game.getPlayerTwo().getHealth()));
+        blueText.putString(55, 1, "BLUE HEALTH: " + String.valueOf(game.getPlayerTwo().getHealth()));
 
 
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: handles user keyboard inputs
+    // TODO: why do error messages appear when arrow keys are pressed?
     private void handleUserInput() throws IOException {
         KeyStroke keyStroke = screen.pollInput();
         if (keyStroke == null) {
+            return;
+        }
+        if (keyStroke.getKeyType() == KeyType.ArrowUp) {
             return;
         }
         if (keyStroke.getCharacter() == 'w') {
