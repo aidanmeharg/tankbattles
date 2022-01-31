@@ -30,6 +30,7 @@ public class TankGame {
     // MODIFIES: this
     // EFFECTS: progresses game state
     public void tick() {
+        decreasePlayerCoolDown();
         playerOne.moveTank();
         playerTwo.moveTank();
         for (Missile next : missiles) {
@@ -68,30 +69,29 @@ public class TankGame {
     }
 
     // MODIFIES: this
-    // EFFECTS: fires a new missile from player
+    // EFFECTS: fires a new missile from player if coolDown = 0
     public void playerFireMissile(Tank player) {
-        if (player.getDx() == 0) {
-            if (player.getDy() > 0) {
-                Missile missile = new Missile(player.getXcoord(), player.getYcoord() + 1,
-                        0, Missile.MISSILE_SPEED);
+        if (player.getCoolDown() == 0) {
+            if (player.getDx() == 0 && player.getDy() > 0) {
+                Missile missile = new Missile(player.getXcoord(), player.getYcoord() + 1, 0, Missile.MISSILE_SPEED);
                 missiles.add(missile);
+                player.resetCoolDown();
             } else if (player.getDy() < 0) {
-                Missile missile = new Missile(player.getXcoord(), player.getYcoord() - 1,
-                        0, - Missile.MISSILE_SPEED);
+                Missile missile = new Missile(player.getXcoord(), player.getYcoord() - 1, 0, -Missile.MISSILE_SPEED);
                 missiles.add(missile);
-            }
-        } else if (player.getDy() == 0) {
-            if (player.getDx() > 0) {
-                Missile missile = new Missile(player.getXcoord() + 1, player.getYcoord(),
-                        Missile.MISSILE_SPEED, 0);
+                player.resetCoolDown();
+            } else if (player.getDy() == 0 && player.getDx() > 0) {
+                Missile missile = new Missile(player.getXcoord() + 1, player.getYcoord(), Missile.MISSILE_SPEED, 0);
                 missiles.add(missile);
+                player.resetCoolDown();
             } else if (player.getDx() < 0) {
-                Missile missile = new Missile(player.getXcoord() - 1, player.getYcoord(),
-                        - Missile.MISSILE_SPEED, 0);
+                Missile missile = new Missile(player.getXcoord() - 1, player.getYcoord(), -Missile.MISSILE_SPEED, 0);
                 missiles.add(missile);
+                player.resetCoolDown();
             }
         }
     }
+
 
     // MODIFIES: this
     // EFFECTS: removes missiles that have exited screen bounds
@@ -119,22 +119,26 @@ public class TankGame {
     private void handleCollisions(Tank player) {
         ArrayList<Missile> toRemove = new ArrayList<>();
         for (Missile next : missiles) {
-            if (player.getXcoord() - 2 < next.getXcoord()) {
-                if (next.getXcoord() < player.getXcoord() + 2) {
-                    if (player.getYcoord() - 1 < next.getYcoord()) {
-                        if (next.getYcoord() < player.getYcoord() + 1) {
-                            player.decreaseHealth();
-                            toRemove.add(next);
+            if (player.getXcoord() - 2 < next.getXcoord()
+                    && next.getXcoord() < player.getXcoord() + 2
+                    && player.getYcoord() - 1 < next.getYcoord()
+                    && next.getYcoord() < player.getYcoord() + 1) {
+                player.decreaseHealth();
+                toRemove.add(next);
 
-                        }
-                    }
-                }
             }
-
         }
         missiles.removeAll(toRemove);
     }
 
+    // MODIFIES: this
+    // EFFECTS: decreases the coolDown times of player 1 and 2
+    public void decreasePlayerCoolDown() {
+        playerOne.decreaseCoolDown();
+        playerTwo.decreaseCoolDown();
+    }
+
+    // EFFECTS: returns true if game is over (namely if player 1 or 2 has 0 health)
     private boolean checkGameOver() {
         return playerOne.getHealth() < 1 || playerTwo.getHealth() < 1;
     }

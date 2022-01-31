@@ -86,14 +86,14 @@ public class ConsoleGame {
     // EFFECTS: draws player one onto terminal
     private void drawPlayerOne() {
         Tank playerOne = game.getPlayerOne();
-        drawPosition(playerOne.getXcoord(), playerOne.getYcoord(), TextColor.ANSI.RED, '\u2588', true);
+        drawPosition(playerOne.getXcoord(), playerOne.getYcoord(), TextColor.ANSI.RED, '█', true);
     }
 
     // MODIFIES: this
     // EFFECTS: draws player two onto terminal
     private void drawPlayerTwo() {
         Tank playerTwo = game.getPlayerTwo();
-        drawPosition(playerTwo.getXcoord(), playerTwo.getYcoord(), TextColor.ANSI.BLUE, '\u2588', true);
+        drawPosition(playerTwo.getXcoord(), playerTwo.getYcoord(), TextColor.ANSI.BLUE, '█', true);
     }
 
     // MODIFIES: this
@@ -107,7 +107,7 @@ public class ConsoleGame {
     // MODIFIES: this
     // EFFECTS: draws a missile onto terminal
     private void drawMissile(Missile missile) {
-        drawPosition(missile.getXcoord(), missile.getYcoord(), TextColor.ANSI.WHITE, '\u25B4', false);
+        drawPosition(missile.getXcoord(), missile.getYcoord(), TextColor.ANSI.WHITE, '▴', false);
     }
 
     // MODIFIES: this
@@ -125,8 +125,7 @@ public class ConsoleGame {
 
     private String getResult() {
         if (game.getPlayerOne().getHealth() == 0) {
-            String result = "BLUE WINS";
-            return result;
+            return "BLUE WINS";
         } else {
             return "RED WINS";
         }
@@ -150,11 +149,11 @@ public class ConsoleGame {
     private void drawHealthBars() {
         TextGraphics redText = screen.newTextGraphics();
         redText.setForegroundColor(TextColor.ANSI.RED);
-        redText.putString(10, 1, "RED HEALTH: " + String.valueOf(game.getPlayerOne().getHealth()));
+        redText.putString(10, 1, "RED HEALTH: " + (game.getPlayerOne().getHealth()));
 
         TextGraphics blueText = screen.newTextGraphics();
         blueText.setForegroundColor(TextColor.ANSI.BLUE);
-        blueText.putString(55, 1, "BLUE HEALTH: " + String.valueOf(game.getPlayerTwo().getHealth()));
+        blueText.putString(55, 1, "BLUE HEALTH: " + (game.getPlayerTwo().getHealth()));
 
 
     }

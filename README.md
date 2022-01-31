@@ -26,6 +26,8 @@ past playing simple 2-player games (ex. Fireboy and Watergirl, Tanks 2 etc.)
 - As a user, I want to take damage when enemy missiles collide with my tank
 - As a user, I want my tank to be bounded by the edges of the screen, and take damage if I try to drive 
 out of the screen
+- As a user, I want to have a cooldown period after firing my tank's cannon which restricts me from firing infinitely
+many consecutive shots
 
 
 

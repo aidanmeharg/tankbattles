@@ -142,6 +142,18 @@ public class TankGameTest {
     }
 
     @Test
+    void testPlayerFireMissileCoolDown() {
+        game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);
+        game.playerFireMissile(game.getPlayerOne());
+        game.playerFireMissile(game.getPlayerOne());
+        game.playerFireMissile(game.getPlayerOne());
+
+        assertEquals(1, game.getMissiles().size());
+
+
+    }
+
+    @Test
     void testFilterBoundaryMissiles() {
         game.getPlayerOne().setCoordinates(Missile.MISSILE_SPEED + 1,0);
         game.getPlayerOne().setDirection(- Tank.TANK_SPEED, 0);
