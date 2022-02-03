@@ -15,14 +15,13 @@ public class TankGame {
     private final ArrayList<Missile> missiles;
     private final int xboundary;
     private final int yboundary;
-    private boolean ended;
 
     // EFFECTS: constructs a new tank game with boundaries and 2 players
     //          missiles is empty and P1 at (4,4), P2 at opposite corner
     public TankGame(int xboundary, int yboundary) {
         this.xboundary = xboundary;
         this.yboundary = yboundary;
-        missiles = new ArrayList<>();
+        this.missiles = new ArrayList<>();
         this.playerOne = new Tank(4, 4, 0, 0);
         this.playerTwo = new Tank(xboundary - 4, yboundary - 4, 0, 0);
     }
@@ -38,12 +37,9 @@ public class TankGame {
         }
         handlePlayerBoundaries(playerOne);
         handlePlayerBoundaries(playerTwo);
-        handleCollisions(playerOne);
-        handleCollisions(playerTwo);
+        handlePlayerMissileCollisions(playerOne);
+        handlePlayerMissileCollisions(playerTwo);
         filterBoundaryMissiles();
-        if (checkGameOver()) {
-            ended = true;
-        }
     }
 
     // MODIFIES: this
@@ -116,16 +112,12 @@ public class TankGame {
     // MODIFIES: this
     // EFFECTS: checks for missiles that have hit the given player
     //          then deals damage and removes appropriate missiles
-    private void handleCollisions(Tank player) {
+    private void handlePlayerMissileCollisions(Tank player) {
         ArrayList<Missile> toRemove = new ArrayList<>();
         for (Missile next : missiles) {
-            if (player.getXcoord() - 2 < next.getXcoord()
-                    && next.getXcoord() < player.getXcoord() + 2
-                    && player.getYcoord() - 1 < next.getYcoord()
-                    && next.getYcoord() < player.getYcoord() + 1) {
+            if (player.checkTankHitByMissile(next)) {
                 player.decreaseHealth();
                 toRemove.add(next);
-
             }
         }
         missiles.removeAll(toRemove);

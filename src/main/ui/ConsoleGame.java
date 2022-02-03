@@ -161,7 +161,7 @@ public class ConsoleGame {
 
     // MODIFIES: this
     // EFFECTS: handles user keyboard inputs
-    // TODO: why do error messages appear when arrow keys are pressed?
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void handleUserInput() throws IOException {
         KeyStroke keyStroke = screen.pollInput();
         if (keyStroke == null) {

@@ -15,10 +15,13 @@ public class Tank {
     private int dy;
     private int coolDown;
 
+
     // COOL_DOWN_TIME must be >= 0
     public static final int COOL_DOWN_TIME = 10;
     public static final int TANK_SPEED = 1;
     public static final int STARTING_HEALTH = 3;
+    public static final int TANK_WIDTH = 4;
+    public static final int TANK_HEIGHT = 2;
 
 
     // EFFECTS: constructs a new tank object
@@ -74,6 +77,18 @@ public class Tank {
     public void decreaseCoolDown() {
         if (this.coolDown > 0) {
             this.coolDown--;
+        }
+    }
+
+    // EFFECTS: returns true if this tank is hit by missile
+    public boolean checkTankHitByMissile(Missile missile) {
+        if (this.xcoord - (TANK_WIDTH / 2) < missile.getXcoord()
+                && missile.getXcoord() < this.xcoord + (TANK_WIDTH / 2)
+                && this.ycoord - (TANK_HEIGHT / 2) < missile.getYcoord()
+                && missile.getYcoord() < this.ycoord + (TANK_HEIGHT / 2)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
