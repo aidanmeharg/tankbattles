@@ -126,4 +126,53 @@ class TankTest {
         assertEquals(Tank.COOL_DOWN_TIME - 2, tank.getCoolDown());
     }
 
+    @Test
+    void testHitByMissileInXRangeOutYRange() {
+        Missile missile = new Missile(3, 3 + Tank.TANK_HEIGHT, 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileOutXRangeInYRange() {
+        Missile missile = new Missile(3 + Tank.TANK_WIDTH, 3, 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileTopBoundary() {
+        Missile missile = new Missile(3, 3 - (Tank.TANK_HEIGHT / 2), 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileBottomBoundary() {
+        Missile missile = new Missile(3, 3 + (Tank.TANK_HEIGHT / 2), 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileLeftBoundary() {
+        Missile missile = new Missile(3 - (Tank.TANK_WIDTH / 2), 3, 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileRightBoundary() {
+        Missile missile = new Missile(3 + (Tank.TANK_WIDTH / 2), 3, 3, 0);
+        tank.setCoordinates(3, 3);
+        assertFalse(tank.checkTankHitByMissile(missile));
+    }
+
+    @Test
+    void testHitByMissileInsideLeftBoundary() {
+        Missile missile = new Missile(3 - (Tank.TANK_WIDTH / 3), 3, 3, 0);
+        tank.setCoordinates(3, 3);
+        assertTrue(tank.checkTankHitByMissile(missile));
+    }
+
 }

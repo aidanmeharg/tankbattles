@@ -142,6 +142,43 @@ public class TankGameTest {
     }
 
     @Test
+    void testPlayerFireMissileLeft() {
+        game.getPlayerOne().setDirection(- Tank.TANK_SPEED, 0);
+        game.playerFireMissile(game.getPlayerOne());
+
+        assertEquals(1, game.getMissiles().size());
+        assertEquals(3, game.getMissiles().get(0).getXcoord());
+        assertEquals(4, game.getMissiles().get(0).getYcoord());
+        assertEquals(- Missile.MISSILE_SPEED, game.getMissiles().get(0).getDx());
+        assertEquals(0, game.getMissiles().get(0).getDy());
+    }
+
+    @Test
+    void testPlayerFireMissileUp() {
+        game.getPlayerOne().setDirection(0, - Tank.TANK_SPEED);
+        game.playerFireMissile(game.getPlayerOne());
+
+        assertEquals(1, game.getMissiles().size());
+        assertEquals(4, game.getMissiles().get(0).getXcoord());
+        assertEquals(3, game.getMissiles().get(0).getYcoord());
+        assertEquals(- Missile.MISSILE_SPEED, game.getMissiles().get(0).getDy());
+        assertEquals(0, game.getMissiles().get(0).getDx());
+    }
+
+    @Test
+    void testPlayerFireMissileDown() {
+        game.getPlayerOne().setDirection(0, Tank.TANK_SPEED);
+        game.playerFireMissile(game.getPlayerOne());
+
+        assertEquals(1, game.getMissiles().size());
+        assertEquals(4, game.getMissiles().get(0).getXcoord());
+        assertEquals(5, game.getMissiles().get(0).getYcoord());
+        assertEquals(Missile.MISSILE_SPEED, game.getMissiles().get(0).getDy());
+        assertEquals(0, game.getMissiles().get(0).getDx());
+    }
+
+
+    @Test
     void testPlayerFireMissileCoolDown() {
         game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);
         game.playerFireMissile(game.getPlayerOne());
@@ -174,6 +211,22 @@ public class TankGameTest {
 
         game.getPlayerOne().decreaseHealth();
         assertTrue(game.isEnded());
+    }
+
+    @Test
+    void testHandlePlayerMissileCollisions() {
+        game.getPlayerOne().setCoordinates(0,0);
+        game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);
+        game.getPlayerTwo().setCoordinates(Missile.MISSILE_SPEED + Tank.TANK_SPEED + 1, 0);
+        game.getPlayerTwo().setDirection(- Tank.TANK_SPEED,  0);
+
+        game.playerFireMissile(game.getPlayerOne());
+
+        game.tick();
+
+        assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
+        assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerTwo().getHealth());
+        assertEquals(0, game.getMissiles().size());
     }
 
 }
