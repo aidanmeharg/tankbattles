@@ -30,6 +30,7 @@ public class ConsoleGame {
     private WindowBasedTextGUI endGUI;
 
 
+    // MODIFIES: this
     // EFFECTS: begins a new game
     public void start() throws IOException, InterruptedException {
         screen = new DefaultTerminalFactory().createScreen();
@@ -43,6 +44,7 @@ public class ConsoleGame {
         beginTicks();
     }
 
+    // MODIFIES: this
     // EFFECTS: begins the game cycle and ticks every TICKS_PER_SECOND
     //          until game has ended and endGUI has been exited.
     private void beginTicks() throws IOException, InterruptedException {
@@ -123,6 +125,7 @@ public class ConsoleGame {
         }
     }
 
+    // EFFECTS: returns result of the game
     private String getResult() {
         if (game.getPlayerOne().getHealth() == 0) {
             return "BLUE WINS";
