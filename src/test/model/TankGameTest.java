@@ -205,11 +205,20 @@ public class TankGameTest {
     }
 
     @Test
-    void testCheckGameOver() {
+    void testCheckGameOverPlayerOne() {
         game.getPlayerOne().setHealth(1);
         assertFalse(game.isEnded());
 
         game.getPlayerOne().decreaseHealth();
+        assertTrue(game.isEnded());
+    }
+
+    @Test
+    void testCheckGameOverPlayerTwo() {
+        game.getPlayerTwo().setHealth(1);
+        assertFalse(game.isEnded());
+
+        game.getPlayerTwo().decreaseHealth();
         assertTrue(game.isEnded());
     }
 
@@ -227,6 +236,46 @@ public class TankGameTest {
         assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
         assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerTwo().getHealth());
         assertEquals(0, game.getMissiles().size());
+    }
+
+    @Test
+    void testOutsideScreenBoundsTopLeftCorner() {
+        assertFalse(game.outsideScreenBounds(0, 0));
+    }
+
+    @Test
+    void testOutsideScreenBoundsTopRightCorner() {
+        assertFalse(game.outsideScreenBounds(100, 0));
+    }
+
+    @Test
+    void testOutsideScreenBoundsBottomLeftCorner() {
+        assertFalse(game.outsideScreenBounds(0, 100));
+    }
+
+    @Test
+    void testOutsideScreenBoundsBottomRightCorner() {
+        assertFalse(game.outsideScreenBounds(100, 100));
+    }
+
+    @Test
+    void testOutsideScreenBoundsTop() {
+        assertTrue(game.outsideScreenBounds(100, -1));
+    }
+
+    @Test
+    void testOutsideScreenBoundsBottom() {
+        assertTrue(game.outsideScreenBounds(100, 101));
+    }
+
+    @Test
+    void testOutsideScreenBoundsLeft() {
+        assertTrue(game.outsideScreenBounds(-1, 50));
+    }
+
+    @Test
+    void testOutsideScreenBoundsRight() {
+        assertTrue(game.outsideScreenBounds(101, 50));
     }
 
 }

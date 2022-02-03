@@ -102,7 +102,7 @@ public class TankGame {
     }
 
     // EFFECTS: produces true if given position is outside of screen bounds
-    private boolean outsideScreenBounds(int x, int y) {
+    public boolean outsideScreenBounds(int x, int y) {
         return x < 0
                 || y < 0
                 || x > xboundary
