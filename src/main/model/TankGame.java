@@ -30,10 +30,10 @@ public class TankGame {
     // EFFECTS: progresses game state
     public void tick() {
         decreasePlayerCoolDown();
-        playerOne.moveTank();
-        playerTwo.moveTank();
+        playerOne.move();
+        playerTwo.move();
         for (Missile next : missiles) {
-            next.moveMissile();
+            next.move();
         }
         handlePlayerBoundaries(playerOne);
         handlePlayerBoundaries(playerTwo);

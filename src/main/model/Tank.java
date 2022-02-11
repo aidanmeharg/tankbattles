@@ -6,13 +6,9 @@ package model;
  * (coolDown should be set to zero when new tank is initialized)
  */
 
-public class Tank {
+public class Tank extends MovingSprite {
 
     private int health;
-    private int xcoord;
-    private int ycoord;
-    private int dx;
-    private int dy;
     private int coolDown;
 
 
@@ -26,40 +22,15 @@ public class Tank {
 
     // EFFECTS: constructs a new tank object
     public Tank(int x, int y, int dx, int dy) {
-        this.xcoord = x;
-        this.ycoord = y;
-        this.dx = dx;
-        this.dy = dy;
+        super(x, y, dx, dy);
         this.health = STARTING_HEALTH;
         this.coolDown = 0;
     }
 
-    // MODIFIES: this
-    // EFFECTS: moves tank by speed in current direction
-    public void moveTank() {
-        this.xcoord += this.dx;
-        this.ycoord += this.dy;
-    }
 
     // getters
     public int getHealth() {
         return this.health;
-    }
-
-    public int getXcoord() {
-        return this.xcoord;
-    }
-
-    public int getYcoord() {
-        return this.ycoord;
-    }
-
-    public int getDx() {
-        return this.dx;
-    }
-
-    public int getDy() {
-        return this.dy;
     }
 
     public int getCoolDown() {
@@ -94,19 +65,6 @@ public class Tank {
         this.coolDown = COOL_DOWN_TIME;
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets tank to given direction
-    public void setDirection(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets tank xcoord and ycoord to (x, y)
-    public void setCoordinates(int x, int y) {
-        this.xcoord = x;
-        this.ycoord = y;
-    }
 
     // REQUIRES: health >= 0
     // MODIFIES: this
@@ -114,7 +72,5 @@ public class Tank {
     public void setHealth(int health) {
         this.health = health;
     }
-
-
 
 }

@@ -40,7 +40,7 @@ public class MissileTest {
     @Test
     void testMoveMissileRight() {
         missile.setDirection(TEST_DX, 0);
-        missile.moveMissile();
+        missile.move();
 
         assertEquals(TEST_X + TEST_DX, missile.getXcoord());
         assertEquals(TEST_Y, missile.getYcoord());
@@ -49,7 +49,7 @@ public class MissileTest {
     @Test
     void testMoveMissileLeft() {
         missile.setDirection(0, TEST_DY);
-        missile.moveMissile();
+        missile.move();
 
         assertEquals(TEST_X, missile.getXcoord());
         assertEquals(TEST_Y + TEST_DY, missile.getYcoord());

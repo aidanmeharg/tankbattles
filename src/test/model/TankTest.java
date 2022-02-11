@@ -64,7 +64,7 @@ class TankTest {
     @Test
     void testMoveTankRight() {
         tank.setDirection(Tank.TANK_SPEED, 0);
-        tank.moveTank();
+        tank.move();
 
         assertEquals(TEST_X + Tank.TANK_SPEED, tank.getXcoord());
         assertEquals(TEST_Y, tank.getYcoord());
@@ -73,7 +73,7 @@ class TankTest {
     @Test
     void testMoveTankLeft() {
         tank.setDirection(- Tank.TANK_SPEED, 0);
-        tank.moveTank();
+        tank.move();
 
         assertEquals(TEST_X - Tank.TANK_SPEED, tank.getXcoord());
         assertEquals(TEST_Y, tank.getYcoord());
@@ -82,7 +82,7 @@ class TankTest {
     @Test
     void testMoveTankUp() {
         tank.setDirection(0, - Tank.TANK_SPEED);
-        tank.moveTank();
+        tank.move();
 
         assertEquals(TEST_X, tank.getXcoord());
         assertEquals(TEST_Y - Tank.TANK_SPEED, tank.getYcoord());
@@ -91,7 +91,7 @@ class TankTest {
     @Test
     void testMoveTankDown() {
         tank.setDirection(0, Tank.TANK_SPEED);
-        tank.moveTank();
+        tank.move();
 
         assertEquals(TEST_X, tank.getXcoord());
         assertEquals(TEST_Y + Tank.TANK_SPEED, tank.getYcoord());
