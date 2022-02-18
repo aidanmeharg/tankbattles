@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 /*
  * represents the 2 player tank game
  */
 
-public class TankGame {
+public class TankGame implements Writable {
 
     public static final int TICKS_PER_SECOND = 10;
     public static final int MAX_SCORE = 3;
@@ -202,4 +206,27 @@ public class TankGame {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("playerOne", this.playerOne.toJson());
+        json.put("playerTwo", this.playerTwo);
+        json.put("playerOneScore", this.playerOneScore);
+        json.put("playerTwoScore", this.playerTwoScore);
+        json.put("xboundary", this.xboundary);
+        json.put("yboundary", this.yboundary);
+        json.put("missiles", missilesToJson());
+
+        return json;
+    }
+
+    // EFFECTS: returns missiles in JSON array format
+    private JSONArray missilesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Missile next : missiles) {
+            jsonArray.put(next.toJson());
+        }
+        return jsonArray;
+    }
 }
