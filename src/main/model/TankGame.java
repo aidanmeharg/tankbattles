@@ -9,12 +9,17 @@ import java.util.ArrayList;
 public class TankGame {
 
     public static final int TICKS_PER_SECOND = 10;
+    public static final int MAX_SCORE = 3;
 
     private final Tank playerOne;
     private final Tank playerTwo;
     private final ArrayList<Missile> missiles;
     private final int xboundary;
     private final int yboundary;
+
+    private int playerOneScore;
+    private int playerTwoScore;
+
 
     // EFFECTS: constructs a new tank game with boundaries and 2 players
     //          missiles is empty and P1 at (4,4), P2 at opposite corner
@@ -24,6 +29,8 @@ public class TankGame {
         this.missiles = new ArrayList<>();
         this.playerOne = new Tank(4, 4, 0, 0);
         this.playerTwo = new Tank(xboundary - 4, yboundary - 4, 0, 0);
+        this.playerOneScore = 0;
+        this.playerTwoScore = 0;
     }
 
     // MODIFIES: this
@@ -40,6 +47,32 @@ public class TankGame {
         handlePlayerMissileCollisions(playerOne);
         handlePlayerMissileCollisions(playerTwo);
         filterBoundaryMissiles();
+        if (checkGameOver()) {
+            resetGame();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns the tanks to initial positions and increments their scores accordingly
+    private void resetGame() {
+        if (playerOne.getHealth() < 1) {
+            this.playerTwoScore++;
+        } else {
+            this.playerOneScore++;
+        }
+        resetTanks();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns both players to initial positions with starting health
+    private void resetTanks() {
+        this.playerOne.setCoordinates(4, 4);
+        this.playerOne.setDirection(0,0);
+        this.playerTwo.setCoordinates(xboundary - 4, yboundary - 4);
+        this.playerTwo.setDirection(0,0);
+
+        this.playerOne.setHealth(Tank.STARTING_HEALTH);
+        this.playerTwo.setHealth(Tank.STARTING_HEALTH);
     }
 
     // MODIFIES: this
@@ -149,7 +182,23 @@ public class TankGame {
     }
 
     public boolean isEnded() {
-        return checkGameOver();
+        return playerOneScore >= MAX_SCORE || playerTwoScore >= MAX_SCORE;
+    }
+
+    public void setPlayerOneScore(int score) {
+        this.playerOneScore = score;
+    }
+
+    public int getPlayerOneScore() {
+        return playerOneScore;
+    }
+
+    public int getPlayerTwoScore() {
+        return playerTwoScore;
+    }
+
+    public void setPlayerTwoScore(int score) {
+        this.playerTwoScore = score;
     }
 
 

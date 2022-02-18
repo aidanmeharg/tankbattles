@@ -29,6 +29,8 @@ past playing simple 2-player games (ex. Fireboy and Watergirl, Tanks 2 etc.)
 out of the screen
 - As a user, I want to have a cooldown period after firing my tank's cannon which restricts me from firing infinitely
 many consecutive shots
+- As a user, I want to be able to save and quit my current game
+- As a user, I want to have the option to load the previous game, or start a new one
 
 
 

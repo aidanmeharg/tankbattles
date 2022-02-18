@@ -79,6 +79,7 @@ public class ConsoleGame {
         }
 
         drawHealthBars();
+        drawScore();
         drawPlayerOne();
         drawPlayerTwo(); 
         drawMissiles(); 
@@ -127,11 +128,27 @@ public class ConsoleGame {
 
     // EFFECTS: returns result of the game
     private String getResult() {
-        if (game.getPlayerOne().getHealth() == 0) {
+        if (game.getPlayerTwoScore() >= TankGame.MAX_SCORE) {
             return "BLUE WINS";
         } else {
             return "RED WINS";
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: displays the current score of the game
+    private void drawScore() {
+        TextGraphics redText = screen.newTextGraphics();
+        redText.setForegroundColor(TextColor.ANSI.RED);
+        redText.putString(36, 1, String.valueOf(game.getPlayerOneScore()));
+
+        TextGraphics whiteText = screen.newTextGraphics();
+        whiteText.setForegroundColor(TextColor.ANSI.WHITE);
+        whiteText.putString(38, 1, "-");
+
+        TextGraphics blueText = screen.newTextGraphics();
+        blueText.setForegroundColor(TextColor.ANSI.BLUE);
+        blueText.putString(40, 1, String.valueOf(game.getPlayerTwoScore()));
     }
 
     // MODIFIES: this

@@ -22,13 +22,15 @@ public class TankGameTest {
         assertEquals(4, game.getPlayerOne().getXcoord());
         assertEquals(4, game.getPlayerOne().getYcoord());
         assertEquals(0, game.getPlayerOne().getDx());
-        assertEquals(0,game.getPlayerOne().getDy());
+        assertEquals(0, game.getPlayerOne().getDy());
+        assertEquals(0, game.getPlayerOneScore());
 
         // check player two
         assertEquals(96, game.getPlayerTwo().getXcoord());
         assertEquals(96, game.getPlayerTwo().getYcoord());
         assertEquals(0, game.getPlayerTwo().getDx());
         assertEquals(0, game.getPlayerTwo().getDy());
+        assertEquals(0, game.getPlayerTwoScore());
 
     }
 
@@ -205,20 +207,24 @@ public class TankGameTest {
     }
 
     @Test
-    void testCheckGameOverPlayerOne() {
+    void testCheckGameOverPlayerTwoWins() {
         game.getPlayerOne().setHealth(1);
+        game.setPlayerTwoScore(TankGame.MAX_SCORE - 1);
         assertFalse(game.isEnded());
 
         game.getPlayerOne().decreaseHealth();
+        game.tick();
         assertTrue(game.isEnded());
     }
 
     @Test
-    void testCheckGameOverPlayerTwo() {
+    void testCheckGameOverPlayerOneWins() {
         game.getPlayerTwo().setHealth(1);
+        game.setPlayerOneScore(TankGame.MAX_SCORE - 1);
         assertFalse(game.isEnded());
 
         game.getPlayerTwo().decreaseHealth();
+        game.tick();
         assertTrue(game.isEnded());
     }
 

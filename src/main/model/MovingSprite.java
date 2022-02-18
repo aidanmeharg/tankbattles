@@ -1,5 +1,9 @@
 package model;
 
+/*
+ * represents a moving object within the game with coordinates and velocity
+ */
+
 public abstract class MovingSprite {
 
     protected int xcoord;
