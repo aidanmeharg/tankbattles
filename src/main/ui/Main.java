@@ -5,9 +5,9 @@ package ui;
  */
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        ConsoleGame theGame = new ConsoleGame();
-        theGame.start();
+    public static void main(String[] args) {
+        StartMenu menu = new StartMenu();
+        menu.runStartMenu();
 
     }
 }
