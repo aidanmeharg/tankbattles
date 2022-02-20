@@ -1,0 +1,15 @@
+{
+    "yboundary": 22,
+    "playerTwoX": 8,
+    "playerTwoY": 10,
+    "playerOneScore": 2,
+    "playerOneHealth": 3,
+    "playerTwoCoolDown": 0,
+    "playerOneCoolDown": 0,
+    "playerTwoHealth": 2,
+    "playerOneX": 29,
+    "playerTwoScore": 0,
+    "xboundary": 39,
+    "missiles": [],
+    "playerOneY": 15
+}

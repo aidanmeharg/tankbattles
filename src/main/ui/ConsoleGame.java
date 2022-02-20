@@ -2,6 +2,7 @@ package ui;
 
 import com.googlecode.lanterna.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -17,6 +18,8 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import model.Missile;
 import model.Tank;
 import model.TankGame;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 /*
  * renders the simple console based tank game
@@ -25,9 +28,13 @@ import model.TankGame;
 
 public class ConsoleGame {
 
+    private static final String JSON_STORE = "./data/savedgame.json";
+
     private TankGame game;
     private Screen screen;
     private WindowBasedTextGUI endGUI;
+
+    private JsonWriter jsonWriter;
 
 
     // MODIFIES: this
@@ -36,11 +43,28 @@ public class ConsoleGame {
         screen = new DefaultTerminalFactory().createScreen();
         screen.startScreen();
 
+        jsonWriter = new JsonWriter(JSON_STORE);
+
         TerminalSize terminalSize = screen.getTerminalSize();
 
         game = new TankGame((terminalSize.getColumns() - 1) / 2,
                 terminalSize.getRows() - 2);
         
+        beginTicks();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: begins a new game
+    public void start(TankGame game) throws IOException, InterruptedException {
+        screen = new DefaultTerminalFactory().createScreen();
+        screen.startScreen();
+
+        jsonWriter = new JsonWriter(JSON_STORE);
+
+        TerminalSize terminalSize = screen.getTerminalSize();
+
+        this.game = game;
+
         beginTicks();
     }
 
@@ -219,6 +243,21 @@ public class ConsoleGame {
         }
         if (keyStroke.getCharacter() == 'n') {
             game.playerFireMissile(game.getPlayerTwo());
+        }
+        if (keyStroke.getCharacter() == '6') {
+            saveGame();
+            System.exit(0);
+            System.out.println("Game has been saved");
+        }
+    }
+
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(game);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Game could not be saved to the file: " + JSON_STORE);
         }
     }
 }

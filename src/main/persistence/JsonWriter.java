@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 /*
  * represents a writer that saves the game in JSON form to file
+ * (modeled from the Workroom App Json serialization demo)
  */
 
 public class JsonWriter {
@@ -30,7 +31,8 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: writes game state in JSON format to file
     public void write(TankGame game) {
-        // STUB
+        JSONObject json = game.toJson();
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this

@@ -30,6 +30,13 @@ public class Tank extends MovingSprite implements Writable {
         this.coolDown = 0;
     }
 
+    // EFFECTS: constructs a new tank with additional parameters
+    public Tank(int x, int y, int dx, int dy, int health, int coolDown) {
+        super(x, y, dx, dy);
+        this.health = health;
+        this.coolDown = coolDown;
+    }
+
 
     // getters
     public int getHealth() {
@@ -66,6 +73,12 @@ public class Tank extends MovingSprite implements Writable {
     // EFFECTS: sets tank's coolDown time to COOL_DOWN_TIME
     public void resetCoolDown() {
         this.coolDown = COOL_DOWN_TIME;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets this coolDown to given value
+    public void setCoolDown(int coolDown) {
+        this.coolDown = coolDown;
     }
 
 

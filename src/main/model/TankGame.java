@@ -37,6 +37,18 @@ public class TankGame implements Writable {
         this.playerTwoScore = 0;
     }
 
+    // EFFECTS: constructs a TankGame in a specified state
+    public TankGame(int xboundary, int yboundary, Tank playerOne, Tank playerTwo,
+                    int playerOneScore, int playerTwoScore) {
+        this.xboundary = xboundary;
+        this.yboundary = yboundary;
+        this.missiles = new ArrayList<>();
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.playerOneScore = playerOneScore;
+        this.playerTwoScore = playerTwoScore;
+    }
+
     // MODIFIES: this
     // EFFECTS: progresses game state
     public void tick() {
@@ -209,8 +221,14 @@ public class TankGame implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("playerOne", this.playerOne.toJson());
-        json.put("playerTwo", this.playerTwo);
+        json.put("playerOneX", this.playerOne.xcoord);
+        json.put("playerOneY", this.playerOne.ycoord);
+        json.put("playerOneHealth", this.playerOne.getHealth());
+        json.put("playerOneCoolDown", this.playerOne.getCoolDown());
+        json.put("playerTwoX", this.playerTwo.xcoord);
+        json.put("playerTwoY", this.playerTwo.ycoord);
+        json.put("playerTwoHealth", this.playerTwo.getHealth());
+        json.put("playerTwoCoolDown", this.playerTwo.getCoolDown());
         json.put("playerOneScore", this.playerOneScore);
         json.put("playerTwoScore", this.playerTwoScore);
         json.put("xboundary", this.xboundary);

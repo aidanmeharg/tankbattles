@@ -9,6 +9,7 @@ Both players will operate their respective tanks with their own
 keyboard commands:
 - Player 1 using **"w, a, s, d"** keys for movement and **"c"** to shoot
 - Player 2 using **"i, j, k, l"** keys for movement and **"n"** to shoot
+- Players may save their current game at any time by pressing **"6"**
 
 Each player will begin with 3 lives which can be lost in 2 ways:
 - Driving your vehicle into the boundaries (edge of screen)
