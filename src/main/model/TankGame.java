@@ -81,9 +81,9 @@ public class TankGame {
     // EFFECTS: returns both players to initial positions with starting health
     private void resetTanks() {
         this.playerOne.setCoordinates(4, 4);
-        this.playerOne.setDirection(0, 0);
+        this.playerOne.setDirection(0,0);
         this.playerTwo.setCoordinates(xboundary - 4, yboundary - 4);
-        this.playerTwo.setDirection(0, 0);
+        this.playerTwo.setDirection(0,0);
 
         this.playerOne.setHealth(Tank.STARTING_HEALTH);
         this.playerTwo.setHealth(Tank.STARTING_HEALTH);
@@ -123,12 +123,10 @@ public class TankGame {
                 Missile missile = new Missile(player.getXcoord(), player.getYcoord() - 1, 0, -Missile.MISSILE_SPEED);
                 missiles.add(missile);
                 player.resetCoolDown();
-            } else if (player.getDy() == 0) {
-                if (player.getDx() > 0) {
-                    Missile missile = new Missile(player.getXcoord() + 1, player.getYcoord(), Missile.MISSILE_SPEED, 0);
-                    missiles.add(missile);
-                    player.resetCoolDown();
-                }
+            } else if (player.getDy() == 0 && player.getDx() > 0) {
+                Missile missile = new Missile(player.getXcoord() + 1, player.getYcoord(), Missile.MISSILE_SPEED, 0);
+                missiles.add(missile);
+                player.resetCoolDown();
             } else if (player.getDx() < 0) {
                 Missile missile = new Missile(player.getXcoord() - 1, player.getYcoord(), -Missile.MISSILE_SPEED, 0);
                 missiles.add(missile);
