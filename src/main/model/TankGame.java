@@ -18,8 +18,8 @@ public class TankGame implements Writable {
     private final Tank playerOne;
     private final Tank playerTwo;
     private final ArrayList<Missile> missiles;
-    private final int xboundary;
-    private final int yboundary;
+    public final int xboundary;
+    public final int yboundary;
 
     private int playerOneScore;
     private int playerTwoScore;
@@ -233,18 +233,8 @@ public class TankGame implements Writable {
         json.put("playerTwoScore", this.playerTwoScore);
         json.put("xboundary", this.xboundary);
         json.put("yboundary", this.yboundary);
-        json.put("missiles", missilesToJson());
 
         return json;
     }
 
-    // EFFECTS: returns missiles in JSON array format
-    private JSONArray missilesToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Missile next : missiles) {
-            jsonArray.put(next.toJson());
-        }
-        return jsonArray;
-    }
 }

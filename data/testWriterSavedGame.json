@@ -1,0 +1,14 @@
+{
+    "yboundary": 45,
+    "playerTwoX": 35,
+    "playerTwoY": 36,
+    "playerOneScore": 2,
+    "playerOneHealth": 3,
+    "playerOneX": 5,
+    "playerTwoScore": 1,
+    "xboundary": 40,
+    "playerOneY": 6,
+    "playerTwoCoolDown": 3,
+    "playerOneCoolDown": 2,
+    "playerTwoHealth": 2
+}
