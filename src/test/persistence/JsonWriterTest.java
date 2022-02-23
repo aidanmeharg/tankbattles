@@ -1,5 +1,6 @@
 package persistence;
 
+import model.Missile;
 import model.Tank;
 import model.TankGame;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,8 @@ public class JsonWriterTest {
             Tank playerOne = new Tank(5, 6, 0, 0, 3, 2);
             Tank playerTwo = new Tank(35, 36, 0, 0, 2, 3);
             TankGame game = new TankGame(40, 45, playerOne, playerTwo, 2, 1);
+            Missile missile = new Missile(15, 17, 2, 0);
+            game.getMissiles().add(missile);
 
             JsonWriter jsonWriter = new JsonWriter("./data/testWriterSavedGame.json");
             jsonWriter.open();
@@ -47,6 +50,7 @@ public class JsonWriterTest {
             assertEquals(36, game.getPlayerTwo().getYcoord());
             assertEquals(2, game.getPlayerTwo().getHealth());
             assertEquals(3, game.getPlayerTwo().getCoolDown());
+            assertEquals(1, game.getMissiles().size());
         } catch (IOException e) {
             fail("IO exception should not have been thrown");
         }

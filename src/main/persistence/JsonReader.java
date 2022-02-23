@@ -1,7 +1,9 @@
 package persistence;
 
+import model.Missile;
 import model.TankGame;
 import model.Tank;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -63,9 +65,32 @@ public class JsonReader {
         TankGame game = new TankGame(xboundary, yboundary, playerOne, playerTwo,
                 playerOneScore, playerTwoScore);
 
+        addMissiles(game, jsonObject);
+
         return game;
     }
 
+    // MODIFIES: TankGame
+    // EFFECTS: parses missiles from Json array
+    private void addMissiles(TankGame game, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("missiles");
+        for (Object json : jsonArray) {
+            JSONObject nextMissile = (JSONObject) json;
+            addMissile(game, nextMissile);
+        }
+    }
+
+    // MODIFIES: TankGame
+    // EFFECTS: parses Missile from Json object and adds it to TankGame
+    private void addMissile(TankGame game, JSONObject nextMissile) {
+        int xcoord = nextMissile.getInt("xcoord");
+        int ycoord = nextMissile.getInt("ycoord");
+        int dx = nextMissile.getInt("dx");
+        int dy = nextMissile.getInt("dy");
+
+        Missile missile = new Missile(xcoord, ycoord, dx, dy);
+        game.getMissiles().add(missile);
+    }
 
 
 }

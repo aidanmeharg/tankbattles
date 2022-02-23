@@ -4,11 +4,17 @@
     "playerTwoY": 36,
     "playerOneScore": 2,
     "playerOneHealth": 3,
+    "playerTwoCoolDown": 3,
+    "playerOneCoolDown": 2,
+    "playerTwoHealth": 2,
     "playerOneX": 5,
     "playerTwoScore": 1,
     "xboundary": 40,
-    "playerOneY": 6,
-    "playerTwoCoolDown": 3,
-    "playerOneCoolDown": 2,
-    "playerTwoHealth": 2
+    "missiles": [{
+        "xcoord": 15,
+        "dx": 2,
+        "dy": 0,
+        "ycoord": 17
+    }],
+    "playerOneY": 6
 }

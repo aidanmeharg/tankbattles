@@ -27,16 +27,17 @@ public class JsonReaderTest {
             TankGame game = jsonReader.read();
             assertEquals(39, game.xboundary);
             assertEquals(22, game.yboundary);
-            assertEquals(2, game.getPlayerOneScore());
+            assertEquals(1, game.getPlayerOneScore());
             assertEquals(0, game.getPlayerTwoScore());
-            assertEquals(29, game.getPlayerOne().getXcoord());
-            assertEquals(15, game.getPlayerOne().getYcoord());
-            assertEquals(3, game.getPlayerOne().getHealth());
-            assertEquals(0, game.getPlayerOne().getCoolDown());
-            assertEquals(8, game.getPlayerTwo().getXcoord());
-            assertEquals(10, game.getPlayerTwo().getYcoord());
-            assertEquals(2, game.getPlayerTwo().getHealth());
-            assertEquals(0, game.getPlayerTwo().getCoolDown());
+            assertEquals(15, game.getPlayerOne().getXcoord());
+            assertEquals(13, game.getPlayerOne().getYcoord());
+            assertEquals(2, game.getPlayerOne().getHealth());
+            assertEquals(6, game.getPlayerOne().getCoolDown());
+            assertEquals(23, game.getPlayerTwo().getXcoord());
+            assertEquals(7, game.getPlayerTwo().getYcoord());
+            assertEquals(3, game.getPlayerTwo().getHealth());
+            assertEquals(5, game.getPlayerTwo().getCoolDown());
+            assertEquals(2, game.getMissiles().size());
 
         } catch (IOException e) {
             fail("IOException should not be thrown");
