@@ -6,10 +6,8 @@ package model;
  * (coolDown should be set to zero when new tank is initialized)
  */
 
-import org.json.JSONObject;
-import persistence.Writable;
 
-public class Tank extends MovingSprite implements Writable {
+public class Tank extends MovingSprite {
 
     private int health;
     private int coolDown;
@@ -75,12 +73,6 @@ public class Tank extends MovingSprite implements Writable {
         this.coolDown = COOL_DOWN_TIME;
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets this coolDown to given value
-    public void setCoolDown(int coolDown) {
-        this.coolDown = coolDown;
-    }
-
 
     // REQUIRES: health >= 0
     // MODIFIES: this
@@ -89,15 +81,4 @@ public class Tank extends MovingSprite implements Writable {
         this.health = health;
     }
 
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("xcoord", this.xcoord);
-        json.put("ycoord", this.ycoord);
-        json.put("dx", this.dx);
-        json.put("dy", this.dy);
-        json.put("health", this.health);
-        json.put("coolDown", this.coolDown);
-        return json;
-    }
 }

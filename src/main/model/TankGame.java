@@ -1,8 +1,6 @@
 package model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.Writable;
 
 import java.util.ArrayList;
 
@@ -10,7 +8,7 @@ import java.util.ArrayList;
  * represents the 2 player tank game
  */
 
-public class TankGame implements Writable {
+public class TankGame {
 
     public static final int TICKS_PER_SECOND = 10;
     public static final int MAX_SCORE = 3;
@@ -218,7 +216,6 @@ public class TankGame implements Writable {
     }
 
 
-    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("playerOneX", this.playerOne.xcoord);
