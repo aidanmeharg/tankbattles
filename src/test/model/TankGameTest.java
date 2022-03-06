@@ -237,6 +237,14 @@ public class TankGameTest {
     }
 
     @Test
+    void testPlayerTanksSameXButNoCollision() {
+        game.playerTwo.setCoordinates(4, 5);
+        game.tick();
+        assertEquals(Tank.STARTING_HEALTH, game.playerOne.getHealth());
+        assertEquals(Tank.STARTING_HEALTH, game.playerTwo.getHealth());
+    }
+
+    @Test
     void testResetGameBothTanksDestroyed() {
         game.getPlayerOne().setHealth(1);
         game.getPlayerTwo().setHealth(1);
