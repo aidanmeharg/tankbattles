@@ -1,6 +1,7 @@
 package ui;
 
 
+import model.OnePlayerGame;
 import model.TankGame;
 import persistence.JsonReader;
 
@@ -56,22 +57,53 @@ public class StartMenu {
     // MODIFIES: this
     // EFFECTS: handles user keyboard input
     private void handleInput(String command) throws IOException, InterruptedException {
-        if (command.equals("n")) {
-            ConsoleGame newGame = new ConsoleGame();
-            newGame.start();
-        } else if (command.equals("l")) {
-            loadGame();
-        } else {
-            System.out.println("invalid selection");
+        ConsoleGame newGame = new ConsoleGame();
+        switch (command) {
+            case "n":
+                newGame.startTwoPlayerGame();
+                break;
+            case "l":
+                loadGame();
+                break;
+            case "i":
+                handleChooseDifficulty();
+                break;
+            default:
+                System.out.println("invalid selection");
+                break;
         }
     }
+
+    // EFFECTS: allows player to choose difficulty setting for single player game
+    private void handleChooseDifficulty() throws IOException, InterruptedException {
+        String selection = "";
+        ConsoleGame newGame = new ConsoleGame();
+
+        while (!(selection.equals("e") || selection.equals("m") || selection.equals("d"))) {
+            displayDifficultyMenu();
+            selection = input.next();
+            selection = selection.toLowerCase(Locale.ROOT);
+        }
+        switch (selection) {
+            case "e":
+                newGame.startOnePlayerGame(OnePlayerGame.EASY_TURN_DELAY);
+                break;
+            case "m":
+                newGame.startOnePlayerGame(OnePlayerGame.MEDIUM_TURN_DELAY);
+                break;
+            case "d":
+                newGame.startOnePlayerGame(OnePlayerGame.DIFFICULT_TURN_DELAY);
+                break;
+        }
+    }
+
 
     // EFFECTS: loads the saved game from source file
     private void loadGame() {
         try {
             TankGame savedGame = jsonReader.read();
             ConsoleGame consoleGame = new ConsoleGame();
-            consoleGame.start(savedGame);
+            consoleGame.startTwoPlayerGame(savedGame);
         } catch (IOException | InterruptedException e) {
             System.out.println("unable to read from file");
         }
@@ -88,10 +120,19 @@ public class StartMenu {
     // EFFECTS: displays options for user
     private void displayMenu() {
         System.out.println("\nWelcome to Tank Battles! Please select one of the following:");
-        System.out.println("\n ");
         System.out.println("\tn -> begins a new game (press '6' at any time to save and quit)");
+        System.out.println("\ti -> begins a new single player game");
         System.out.println("\tl -> loads previous game");
         System.out.println("\tq -> quit");
+    }
+
+    // EFFECTS: displays one player difficulty options for user
+    private void displayDifficultyMenu() {
+        System.out.println("\nPlease select a difficulty level:");
+        System.out.println("\te -> easy");
+        System.out.println("\tm -> medium");
+        System.out.println("\td -> difficult");
+
     }
 
 

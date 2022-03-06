@@ -16,9 +16,9 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 
 import model.Missile;
+import model.OnePlayerGame;
 import model.Tank;
 import model.TankGame;
-import persistence.JsonReader;
 import persistence.JsonWriter;
 
 /*
@@ -28,18 +28,18 @@ import persistence.JsonWriter;
 
 public class ConsoleGame {
 
-    private static final String JSON_STORE = "./data/savedgame.json";
+    protected static final String JSON_STORE = "./data/savedgame.json";
 
     private TankGame game;
-    private Screen screen;
-    private WindowBasedTextGUI endGUI;
+    protected Screen screen;
+    protected WindowBasedTextGUI endGUI;
 
-    private JsonWriter jsonWriter;
+    protected JsonWriter jsonWriter;
 
 
     // MODIFIES: this
-    // EFFECTS: begins a new game
-    public void start() throws IOException, InterruptedException {
+    // EFFECTS: begins a new two player game
+    public void startTwoPlayerGame() throws IOException, InterruptedException {
         screen = new DefaultTerminalFactory().createScreen();
         screen.startScreen();
 
@@ -54,14 +54,28 @@ public class ConsoleGame {
     }
 
     // MODIFIES: this
-    // EFFECTS: begins a new game
-    public void start(TankGame game) throws IOException, InterruptedException {
+    // EFFECTS: begins a new one player game
+    public void startOnePlayerGame(int turnDelay) throws IOException, InterruptedException {
         screen = new DefaultTerminalFactory().createScreen();
         screen.startScreen();
 
         jsonWriter = new JsonWriter(JSON_STORE);
 
         TerminalSize terminalSize = screen.getTerminalSize();
+
+        game = new OnePlayerGame((terminalSize.getColumns() - 1) / 2,
+                terminalSize.getRows() - 2, turnDelay);
+
+        beginTicks();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: begins a game in specified state
+    public void startTwoPlayerGame(TankGame game) throws IOException, InterruptedException {
+        screen = new DefaultTerminalFactory().createScreen();
+        screen.startScreen();
+
+        jsonWriter = new JsonWriter(JSON_STORE);
 
         this.game = game;
 
@@ -71,7 +85,7 @@ public class ConsoleGame {
     // MODIFIES: this
     // EFFECTS: begins the game cycle and ticks every TICKS_PER_SECOND
     //          until game has ended and endGUI has been exited.
-    private void beginTicks() throws IOException, InterruptedException {
+    protected void beginTicks() throws IOException, InterruptedException {
         while (!game.isEnded() || endGUI.getActiveWindow() != null) {
             tick();
             Thread.sleep(100L, TankGame.TICKS_PER_SECOND);
@@ -249,8 +263,8 @@ public class ConsoleGame {
         }
         if (keyStroke.getCharacter() == '6') {
             saveGame();
-            System.exit(0);
             System.out.println("Game has been saved");
+            System.exit(0);
         }
     }
 

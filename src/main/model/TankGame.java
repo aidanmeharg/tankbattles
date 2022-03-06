@@ -15,8 +15,8 @@ public class TankGame implements Writable {
     public static final int TICKS_PER_SECOND = 10;
     public static final int MAX_SCORE = 3;
 
-    private final Tank playerOne;
-    private final Tank playerTwo;
+    public final Tank playerOne;
+    public final Tank playerTwo;
     private final ArrayList<Missile> missiles;
     public final int xboundary;
     public final int yboundary;
