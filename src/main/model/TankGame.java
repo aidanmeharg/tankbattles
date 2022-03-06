@@ -62,6 +62,7 @@ public class TankGame implements Writable {
         handlePlayerBoundaries(playerTwo);
         handlePlayerMissileCollisions(playerOne);
         handlePlayerMissileCollisions(playerTwo);
+        handlePlayerTankCollisions();
         filterBoundaryMissiles();
         if (checkGameOver()) {
             resetGame();
@@ -71,7 +72,11 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: returns the tanks to initial positions and increments their scores accordingly
     private void resetGame() {
-        if (playerOne.getHealth() < 1) {
+        if (playerOne.getHealth() < 1
+                && playerTwo.getHealth() < 1) {
+            this.playerOneScore++;
+            this.playerTwoScore++;
+        } else if (playerOne.getHealth() < 1) {
             this.playerTwoScore++;
         } else {
             this.playerOneScore++;
@@ -83,9 +88,9 @@ public class TankGame implements Writable {
     // EFFECTS: returns both players to initial positions with starting health
     private void resetTanks() {
         this.playerOne.setCoordinates(4, 4);
-        this.playerOne.setDirection(0,0);
+        this.playerOne.setDirection(0, 0);
         this.playerTwo.setCoordinates(xboundary - 4, yboundary - 4);
-        this.playerTwo.setDirection(0,0);
+        this.playerTwo.setDirection(0, 0);
 
         this.playerOne.setHealth(Tank.STARTING_HEALTH);
         this.playerTwo.setHealth(Tank.STARTING_HEALTH);
@@ -170,6 +175,16 @@ public class TankGame implements Writable {
             }
         }
         missiles.removeAll(toRemove);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: deals damage to both players if they collide
+    private void handlePlayerTankCollisions() {
+        if (playerOne.xcoord == playerTwo.xcoord
+                && playerOne.ycoord == playerTwo.ycoord) {
+            playerOne.decreaseHealth();
+            playerTwo.decreaseHealth();
+        }
     }
 
     // MODIFIES: this

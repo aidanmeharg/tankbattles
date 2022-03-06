@@ -229,6 +229,25 @@ public class TankGameTest {
     }
 
     @Test
+    void testPlayerTanksCollide() {
+        game.getPlayerTwo().setCoordinates(4, 4);
+        game.tick();
+        assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
+        assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerTwo().getHealth());
+    }
+
+    @Test
+    void testResetGameBothTanksDestroyed() {
+        game.getPlayerOne().setHealth(1);
+        game.getPlayerTwo().setHealth(1);
+        game.getPlayerTwo().setCoordinates(4, 4);
+        game.tick();
+
+        assertEquals(1, game.getPlayerOneScore());
+        assertEquals(1, game.getPlayerTwoScore());
+    }
+
+    @Test
     void testHandlePlayerMissileCollisions() {
         game.getPlayerOne().setCoordinates(0,0);
         game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);

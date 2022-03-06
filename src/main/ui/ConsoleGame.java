@@ -49,7 +49,7 @@ public class ConsoleGame {
 
         game = new TankGame((terminalSize.getColumns() - 1) / 2,
                 terminalSize.getRows() - 2);
-        
+
         beginTicks();
     }
 
@@ -89,7 +89,7 @@ public class ConsoleGame {
         renderGame();
         screen.refresh();
         screen.setCursorPosition(new TerminalPosition(screen.getTerminalSize().getColumns() - 1, 0));
-        
+
     }
 
     // MODIFIES: this
@@ -105,8 +105,8 @@ public class ConsoleGame {
         drawHealthBars();
         drawScore();
         drawPlayerOne();
-        drawPlayerTwo(); 
-        drawMissiles(); 
+        drawPlayerTwo();
+        drawMissiles();
     }
 
     // MODIFIES: this
@@ -152,10 +152,13 @@ public class ConsoleGame {
 
     // EFFECTS: returns result of the game
     private String getResult() {
-        if (game.getPlayerTwoScore() >= TankGame.MAX_SCORE) {
-            return "BLUE WINS";
-        } else {
+        if (game.getPlayerTwoScore() >= TankGame.MAX_SCORE
+                && game.getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            return "DRAW";
+        } else if (game.getPlayerOneScore() >= TankGame.MAX_SCORE) {
             return "RED WINS";
+        } else {
+            return "BLUE WINS";
         }
     }
 
@@ -230,13 +233,13 @@ public class ConsoleGame {
             game.playerFireMissile(game.getPlayerOne());
         }
         if (keyStroke.getCharacter() == 'i') {
-            game.getPlayerTwo().setDirection(0, - Tank.TANK_SPEED);
+            game.getPlayerTwo().setDirection(0, -Tank.TANK_SPEED);
         }
         if (keyStroke.getCharacter() == 'k') {
             game.getPlayerTwo().setDirection(0, Tank.TANK_SPEED);
         }
         if (keyStroke.getCharacter() == 'j') {
-            game.getPlayerTwo().setDirection(- Tank.TANK_SPEED, 0);
+            game.getPlayerTwo().setDirection(-Tank.TANK_SPEED, 0);
         }
         if (keyStroke.getCharacter() == 'l') {
             game.getPlayerTwo().setDirection(Tank.TANK_SPEED, 0);
