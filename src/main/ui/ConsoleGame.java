@@ -54,6 +54,19 @@ public class ConsoleGame {
     }
 
     // MODIFIES: this
+    // EFFECTS: begins a game in specified state
+    public void startTwoPlayerGame(TankGame game) throws IOException, InterruptedException {
+        screen = new DefaultTerminalFactory().createScreen();
+        screen.startScreen();
+
+        jsonWriter = new JsonWriter(JSON_STORE);
+
+        this.game = game;
+
+        beginTicks();
+    }
+
+    // MODIFIES: this
     // EFFECTS: begins a new one player game
     public void startOnePlayerGame(int turnDelay) throws IOException, InterruptedException {
         screen = new DefaultTerminalFactory().createScreen();
@@ -69,18 +82,6 @@ public class ConsoleGame {
         beginTicks();
     }
 
-    // MODIFIES: this
-    // EFFECTS: begins a game in specified state
-    public void startTwoPlayerGame(TankGame game) throws IOException, InterruptedException {
-        screen = new DefaultTerminalFactory().createScreen();
-        screen.startScreen();
-
-        jsonWriter = new JsonWriter(JSON_STORE);
-
-        this.game = game;
-
-        beginTicks();
-    }
 
     // MODIFIES: this
     // EFFECTS: begins the game cycle and ticks every TICKS_PER_SECOND
