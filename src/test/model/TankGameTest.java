@@ -19,15 +19,15 @@ public class TankGameTest {
         assertFalse(game.isEnded());
 
         // check player one
-        assertEquals(4, game.getPlayerOne().getXcoord());
-        assertEquals(4, game.getPlayerOne().getYcoord());
+        assertEquals(Tank.TANK_WIDTH, game.getPlayerOne().getXcoord());
+        assertEquals(Tank.TANK_HEIGHT, game.getPlayerOne().getYcoord());
         assertEquals(0, game.getPlayerOne().getDx());
         assertEquals(0, game.getPlayerOne().getDy());
         assertEquals(0, game.getPlayerOneScore());
 
         // check player two
-        assertEquals(96, game.getPlayerTwo().getXcoord());
-        assertEquals(96, game.getPlayerTwo().getYcoord());
+        assertEquals(100 - Tank.TANK_WIDTH, game.getPlayerTwo().getXcoord());
+        assertEquals(100 - Tank.TANK_HEIGHT, game.getPlayerTwo().getYcoord());
         assertEquals(0, game.getPlayerTwo().getDx());
         assertEquals(0, game.getPlayerTwo().getDy());
         assertEquals(0, game.getPlayerTwoScore());
@@ -41,15 +41,15 @@ public class TankGameTest {
         game.tick();
 
         // check player one
-        assertEquals(4 + Tank.TANK_SPEED, game.getPlayerOne().getXcoord());
-        assertEquals(4, game.getPlayerOne().getYcoord());
+        assertEquals(Tank.TANK_WIDTH + Tank.TANK_SPEED, game.getPlayerOne().getXcoord());
+        assertEquals(Tank.TANK_HEIGHT, game.getPlayerOne().getYcoord());
         assertEquals(Tank.TANK_SPEED, game.getPlayerOne().getDx());
         assertEquals(0,game.getPlayerOne().getDy());
         assertFalse(game.isEnded());
 
         // check player two
-        assertEquals(96 - Tank.TANK_SPEED, game.getPlayerTwo().getXcoord());
-        assertEquals(96, game.getPlayerTwo().getYcoord());
+        assertEquals(100 - Tank.TANK_WIDTH - Tank.TANK_SPEED, game.getPlayerTwo().getXcoord());
+        assertEquals(100 - Tank.TANK_HEIGHT, game.getPlayerTwo().getYcoord());
         assertEquals(- Tank.TANK_SPEED, game.getPlayerTwo().getDx());
         assertEquals(0, game.getPlayerTwo().getDy());
         assertFalse(game.isEnded());
@@ -137,32 +137,34 @@ public class TankGameTest {
         game.playerFireMissile(game.getPlayerOne());
 
         assertEquals(1, game.getMissiles().size());
-        assertEquals(5, game.getMissiles().get(0).getXcoord());
-        assertEquals(4, game.getMissiles().get(0).getYcoord());
+        assertEquals(2 * Tank.TANK_WIDTH, game.getMissiles().get(0).getXcoord());
+        assertEquals(Tank.TANK_HEIGHT, game.getMissiles().get(0).getYcoord());
         assertEquals(Missile.MISSILE_SPEED, game.getMissiles().get(0).getDx());
         assertEquals(0, game.getMissiles().get(0).getDy());
     }
 
     @Test
     void testPlayerFireMissileLeft() {
+        game.playerOne.setCoordinates(50, 50);
         game.getPlayerOne().setDirection(- Tank.TANK_SPEED, 0);
         game.playerFireMissile(game.getPlayerOne());
 
         assertEquals(1, game.getMissiles().size());
-        assertEquals(3, game.getMissiles().get(0).getXcoord());
-        assertEquals(4, game.getMissiles().get(0).getYcoord());
+        assertEquals(50 - Tank.TANK_WIDTH, game.getMissiles().get(0).getXcoord());
+        assertEquals(50, game.getMissiles().get(0).getYcoord());
         assertEquals(- Missile.MISSILE_SPEED, game.getMissiles().get(0).getDx());
         assertEquals(0, game.getMissiles().get(0).getDy());
     }
 
     @Test
     void testPlayerFireMissileUp() {
+        game.playerOne.setCoordinates(50, 50);
         game.getPlayerOne().setDirection(0, - Tank.TANK_SPEED);
         game.playerFireMissile(game.getPlayerOne());
 
         assertEquals(1, game.getMissiles().size());
-        assertEquals(4, game.getMissiles().get(0).getXcoord());
-        assertEquals(3, game.getMissiles().get(0).getYcoord());
+        assertEquals(50, game.getMissiles().get(0).getXcoord());
+        assertEquals(50 - Tank.TANK_WIDTH, game.getMissiles().get(0).getYcoord());
         assertEquals(- Missile.MISSILE_SPEED, game.getMissiles().get(0).getDy());
         assertEquals(0, game.getMissiles().get(0).getDx());
     }
@@ -173,8 +175,8 @@ public class TankGameTest {
         game.playerFireMissile(game.getPlayerOne());
 
         assertEquals(1, game.getMissiles().size());
-        assertEquals(4, game.getMissiles().get(0).getXcoord());
-        assertEquals(5, game.getMissiles().get(0).getYcoord());
+        assertEquals(Tank.TANK_WIDTH, game.getMissiles().get(0).getXcoord());
+        assertEquals(2 * Tank.TANK_HEIGHT, game.getMissiles().get(0).getYcoord());
         assertEquals(Missile.MISSILE_SPEED, game.getMissiles().get(0).getDy());
         assertEquals(0, game.getMissiles().get(0).getDx());
     }

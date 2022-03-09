@@ -10,7 +10,7 @@ public class OnePlayerGameTest {
 
     @BeforeEach
     void setup() {
-        game = new OnePlayerGame(100, 100, 15);
+        game = new OnePlayerGame(800, 800, 15);
     }
 
     @Test
@@ -21,7 +21,8 @@ public class OnePlayerGameTest {
 
     @Test
     void testBotMoveLeftAndFireAfterDelay() {
-        game.playerOne.setCoordinates(4, 90);
+        game.playerOne.setCoordinates(100, 90);
+        game.playerTwo.setCoordinates(700, 95);
         for (int i = 0; i < 10; i++) {
             game.tick();
         }

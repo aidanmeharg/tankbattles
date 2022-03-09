@@ -11,9 +11,10 @@ keyboard commands:
 - Player 2 using **"i, j, k, l"** keys for movement and **"n"** to shoot
 - Players may save their current game at any time by pressing **"6"**
 
-Each player will begin with 3 lives which can be lost in 2 ways:
+Each player will begin with 3 lives which can be lost in 3 ways:
 - Driving your vehicle into the boundaries (edge of screen)
 - Getting hit by missiles launched by the opponent
+- Driving into the opposing player (both tanks will be damaged by this)
 
 Once a player has lost all 3 lives, their opponent is proclaimed victorious!
 

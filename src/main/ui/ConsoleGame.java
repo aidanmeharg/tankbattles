@@ -165,17 +165,6 @@ public class ConsoleGame {
         }
     }
 
-    // EFFECTS: returns result of the game
-    private String getResult() {
-        if (game.getPlayerTwoScore() >= TankGame.MAX_SCORE
-                && game.getPlayerOneScore() >= TankGame.MAX_SCORE) {
-            return "DRAW";
-        } else if (game.getPlayerOneScore() >= TankGame.MAX_SCORE) {
-            return "RED WINS";
-        } else {
-            return "BLUE WINS";
-        }
-    }
 
     // MODIFIES: this
     // EFFECTS: displays the current score of the game
@@ -200,7 +189,7 @@ public class ConsoleGame {
 
         new MessageDialogBuilder()
                 .setTitle("GAME OVER")
-                .setText(getResult())
+                .setText(game.getResult())
                 .addButton(MessageDialogButton.Continue)
                 .build()
                 .showDialog(endGUI);

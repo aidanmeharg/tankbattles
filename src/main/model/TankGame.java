@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /*
@@ -26,13 +27,13 @@ public class TankGame implements Writable {
 
 
     // EFFECTS: constructs a new tank game with boundaries and 2 players
-    //          missiles is empty and P1 at (4,4), P2 at opposite corner
+    //          missiles is empty players at opposite corners
     public TankGame(int xboundary, int yboundary) {
         this.xboundary = xboundary;
         this.yboundary = yboundary;
         this.missiles = new ArrayList<>();
-        this.playerOne = new Tank(4, 4, 0, 0);
-        this.playerTwo = new Tank(xboundary - 4, yboundary - 4, 0, 0);
+        this.playerOne = new Tank(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, 0, 0);
+        this.playerTwo = new Tank(xboundary - Tank.TANK_WIDTH, yboundary - Tank.TANK_HEIGHT, 0, 0);
         this.playerOneScore = 0;
         this.playerTwoScore = 0;
     }
@@ -87,9 +88,9 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: returns both players to initial positions with starting health
     private void resetTanks() {
-        this.playerOne.setCoordinates(4, 4);
+        this.playerOne.setCoordinates(Tank.TANK_WIDTH, Tank.TANK_HEIGHT);
         this.playerOne.setDirection(0, 0);
-        this.playerTwo.setCoordinates(xboundary - 4, yboundary - 4);
+        this.playerTwo.setCoordinates(xboundary - Tank.TANK_WIDTH, yboundary - Tank.TANK_HEIGHT);
         this.playerTwo.setDirection(0, 0);
 
         this.playerOne.setHealth(Tank.STARTING_HEALTH);
@@ -99,20 +100,20 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: checks if player exits boundaries and deals damage accordingly
     private void handlePlayerBoundaries(Tank tank) {
-        if (tank.getXcoord() < 0) {
-            tank.setCoordinates(0, tank.getYcoord());
+        if (tank.getXcoord() - (Tank.TANK_WIDTH / 2) < 0) {
+            tank.setCoordinates(Tank.TANK_WIDTH / 2, tank.getYcoord());
             tank.setDirection(Tank.TANK_SPEED, tank.getDy());
             tank.decreaseHealth();
-        } else if (tank.getXcoord() > xboundary) {
-            tank.setCoordinates(xboundary, tank.getYcoord());
+        } else if (tank.getXcoord() + (Tank.TANK_WIDTH / 2) > xboundary) {
+            tank.setCoordinates(xboundary - (Tank.TANK_WIDTH / 2), tank.getYcoord());
             tank.setDirection(-Tank.TANK_SPEED, tank.getDy());
             tank.decreaseHealth();
-        } else if (tank.getYcoord() < 0) {
-            tank.setCoordinates(tank.getXcoord(), 0);
+        } else if (tank.getYcoord() - (Tank.TANK_HEIGHT / 2) < 0) {
+            tank.setCoordinates(tank.getXcoord(), Tank.TANK_HEIGHT / 2);
             tank.setDirection(tank.getDx(), Tank.TANK_SPEED);
             tank.decreaseHealth();
-        } else if (tank.getYcoord() > yboundary) {
-            tank.setCoordinates(tank.getXcoord(), yboundary);
+        } else if (tank.getYcoord() + (Tank.TANK_HEIGHT / 2) > yboundary) {
+            tank.setCoordinates(tank.getXcoord(), yboundary - (Tank.TANK_HEIGHT / 2));
             tank.setDirection(tank.getDx(), -Tank.TANK_SPEED);
             tank.decreaseHealth();
         }
@@ -123,19 +124,23 @@ public class TankGame implements Writable {
     public void playerFireMissile(Tank player) {
         if (player.getCoolDown() == 0) {
             if (player.getDx() == 0 && player.getDy() > 0) {
-                Missile missile = new Missile(player.getXcoord(), player.getYcoord() + 1, 0, Missile.MISSILE_SPEED);
+                Missile missile = new Missile(player.getXcoord(), player.getYcoord() + Tank.TANK_HEIGHT,
+                        0, Missile.MISSILE_SPEED);
                 missiles.add(missile);
                 player.resetCoolDown();
             } else if (player.getDy() < 0) {
-                Missile missile = new Missile(player.getXcoord(), player.getYcoord() - 1, 0, -Missile.MISSILE_SPEED);
+                Missile missile = new Missile(player.getXcoord(), player.getYcoord() - Tank.TANK_HEIGHT,
+                        0, -Missile.MISSILE_SPEED);
                 missiles.add(missile);
                 player.resetCoolDown();
             } else if (player.getDy() == 0 && player.getDx() > 0) {
-                Missile missile = new Missile(player.getXcoord() + 1, player.getYcoord(), Missile.MISSILE_SPEED, 0);
+                Missile missile = new Missile(player.getXcoord() + Tank.TANK_WIDTH,
+                        player.getYcoord(), Missile.MISSILE_SPEED, 0);
                 missiles.add(missile);
                 player.resetCoolDown();
             } else if (player.getDx() < 0) {
-                Missile missile = new Missile(player.getXcoord() - 1, player.getYcoord(), -Missile.MISSILE_SPEED, 0);
+                Missile missile = new Missile(player.getXcoord() - Tank.TANK_WIDTH,
+                        player.getYcoord(), -Missile.MISSILE_SPEED, 0);
                 missiles.add(missile);
                 player.resetCoolDown();
             }
@@ -180,8 +185,10 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: deals damage to both players if they collide
     private void handlePlayerTankCollisions() {
-        if (playerOne.xcoord == playerTwo.xcoord
-                && playerOne.ycoord == playerTwo.ycoord) {
+        if (playerOne.xcoord + (Tank.TANK_WIDTH / 2) > playerTwo.xcoord - (Tank.TANK_WIDTH / 2)
+                && playerOne.xcoord + (Tank.TANK_WIDTH / 2) < playerTwo.xcoord + (Tank.TANK_WIDTH / 2)
+                && playerOne.ycoord + (Tank.TANK_HEIGHT / 2) < playerTwo.ycoord + (Tank.TANK_HEIGHT / 2)
+                && playerOne.ycoord - (Tank.TANK_HEIGHT / 2) > playerTwo.ycoord - (Tank.TANK_HEIGHT / 2)) {
             playerOne.decreaseHealth();
             playerTwo.decreaseHealth();
         }
@@ -197,6 +204,36 @@ public class TankGame implements Writable {
     // EFFECTS: returns true if game is over (namely if player 1 or 2 has 0 health)
     private boolean checkGameOver() {
         return playerOne.getHealth() < 1 || playerTwo.getHealth() < 1;
+    }
+
+    // EFFECTS: returns result of the game
+    public String getResult() {
+        if (getPlayerTwoScore() >= TankGame.MAX_SCORE
+                && getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            return "DRAW";
+        } else if (getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            return "RED WINS";
+        } else {
+            return "GREEN WINS";
+        }
+    }
+
+    // EFFECTS: returns colour of winning tank
+    public Color getWinningColor() {
+        if (getPlayerTwoScore() >= TankGame.MAX_SCORE
+                && getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            return Color.WHITE;
+        } else if (getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            return Color.RED;
+        } else {
+            return Color.GREEN;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles user input and key commands
+    public void keyPressed(int keyCode) {
+        // TODO: implement and test this method
     }
 
     // getters
