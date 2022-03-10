@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /*
@@ -232,8 +233,40 @@ public class TankGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: handles user input and key commands
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public void keyPressed(int keyCode) {
-        // TODO: implement and test this method
+        switch (keyCode) {
+            case KeyEvent.VK_W :
+                this.playerOne.setDirection(0, - Tank.TANK_SPEED);
+                break;
+            case KeyEvent.VK_S :
+                this.playerOne.setDirection(0, Tank.TANK_SPEED);
+                break;
+            case KeyEvent.VK_A :
+                this.playerOne.setDirection(- Tank.TANK_SPEED, 0);
+                break;
+            case KeyEvent.VK_D :
+                this.playerOne.setDirection(Tank.TANK_SPEED, 0);
+                break;
+            case KeyEvent.VK_SPACE :
+                this.playerFireMissile(playerOne);
+                break;
+            case KeyEvent.VK_UP :
+                this.playerTwo.setDirection(0, - Tank.TANK_SPEED);
+                break;
+            case KeyEvent.VK_DOWN :
+                this.playerTwo.setDirection(0, Tank.TANK_SPEED);
+                break;
+            case KeyEvent.VK_LEFT :
+                this.playerTwo.setDirection(- Tank.TANK_SPEED, 0);
+                break;
+            case KeyEvent.VK_RIGHT :
+                this.playerTwo.setDirection(Tank.TANK_SPEED, 0);
+                break;
+            case KeyEvent.VK_COMMA :
+                this.playerFireMissile(playerTwo);
+                break;
+        }
     }
 
     // getters
