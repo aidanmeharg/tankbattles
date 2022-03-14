@@ -189,7 +189,7 @@ public class ConsoleGame {
 
         new MessageDialogBuilder()
                 .setTitle("GAME OVER")
-                .setText(game.getResult())
+                .setText(game.getStringResult())
                 .addButton(MessageDialogButton.Continue)
                 .build()
                 .showDialog(endGUI);

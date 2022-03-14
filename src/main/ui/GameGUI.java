@@ -8,34 +8,42 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
-/*
- * main window where Tank Game is rendered and played
- */
-
-public class TankGameGUI extends JFrame {
+public class GameGUI extends JFrame {
 
     private static final int REFRESH_INTERVAL = 10;
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 600;
+
     private final TankGame game;
+    private final MenuPanel menuPanel;
     private final GamePanel gamePanel;
     private final ScorePanel scorePanel;
 
-    // EFFECTS: constructs and sets up window for TankGame to be played
-    public TankGameGUI() {
+
+
+    public GameGUI() {
         super("Tank Battles");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(false);
+
         game = new OnePlayerGame(FRAME_WIDTH, FRAME_HEIGHT, 100);
-        gamePanel = new GamePanel(this.game);
-        scorePanel = new ScorePanel(this.game);
-        add(gamePanel);
-        add(scorePanel, BorderLayout.NORTH);
-        addKeyListener(new KeyHandler());
+        gamePanel = new GamePanel(game);
+        scorePanel = new ScorePanel(game);
+        menuPanel = new MenuPanel(this);
+        add(menuPanel);
+
         pack();
         centerOnScreen();
         setVisible(true);
+    }
+
+    public void startNewOnePlayerGame() {
+        remove(menuPanel);
+        add(gamePanel);
+        add(scorePanel, BorderLayout.NORTH);
+        gamePanel.addKeyListener(new KeyHandler());
+        gamePanel.requestFocus();
+        pack();
+        centerOnScreen();
         addTimer();
 
     }
@@ -46,12 +54,11 @@ public class TankGameGUI extends JFrame {
             game.tick();
             gamePanel.repaint();
             scorePanel.update();
-
-
         });
 
         t.start();
     }
+
 
     // key handler to respond to user input
     private class KeyHandler extends KeyAdapter {
@@ -61,6 +68,7 @@ public class TankGameGUI extends JFrame {
         }
     }
 
+
     // MODIFIES: this
     // EFFECTS: centers frame on screen
     private void centerOnScreen() {
@@ -69,8 +77,7 @@ public class TankGameGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TankGameGUI();
+        new GameGUI();
     }
-
 
 }

@@ -17,8 +17,8 @@ public class Tank extends MovingSprite {
     public static final int COOL_DOWN_TIME = 30;
     public static final int TANK_SPEED = 3;
     public static final int STARTING_HEALTH = 3;
-    public static final int TANK_WIDTH = 30;
-    public static final int TANK_HEIGHT = 30;
+    public static final int TANK_WIDTH = 50;
+    public static final int TANK_HEIGHT = 50;
 
 
     // EFFECTS: constructs a new tank object

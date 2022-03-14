@@ -20,25 +20,30 @@ public class ScorePanel extends JPanel {
         setBackground(new Color(97, 97, 201));
         playerOneHealthDisplay = new JLabel("RED HEALTH: " + (game.getPlayerOne().getHealth()));
         playerOneHealthDisplay.setFont(new Font("American Typewriter", Font.PLAIN, 15));
-        playerOneHealthDisplay.setPreferredSize(new Dimension(300, LABEL_HEIGHT));
+        playerOneHealthDisplay.setPreferredSize(new Dimension(LABEL_WIDTH, LABEL_HEIGHT));
         playerTwoHealthDisplay = new JLabel("GREEN HEALTH: " + (game.getPlayerTwo().getHealth()));
         playerTwoHealthDisplay.setFont(new Font("American Typewriter", Font.PLAIN, 15));
         playerTwoHealthDisplay.setPreferredSize(new Dimension(LABEL_WIDTH, LABEL_HEIGHT));
         gameScoreDisplay = new JLabel(game.getPlayerOneScore() + " - " + game.getPlayerTwoScore());
         gameScoreDisplay.setPreferredSize(new Dimension(150, LABEL_HEIGHT));
+        add(Box.createHorizontalStrut(120));
         add(playerOneHealthDisplay);
-        add(Box.createHorizontalStrut(10));
         add(gameScoreDisplay);
-        add(Box.createHorizontalStrut(10));
         add(playerTwoHealthDisplay);
     }
 
     // MODIFIES: this
     // EFFECTS: updates the score panel based on current status of game
     public void update() {
-        playerOneHealthDisplay.setText("RED HEALTH: " + (game.getPlayerOne().getHealth()));
-        playerTwoHealthDisplay.setText("GREEN HEALTH: " + (game.getPlayerTwo().getHealth()));
-        gameScoreDisplay.setText(game.getPlayerOneScore() + "-" + game.getPlayerTwoScore());
-        repaint();
+        if (!game.isEnded()) {
+            playerOneHealthDisplay.setText("RED HEALTH: " + (game.getPlayerOne().getHealth()));
+            playerTwoHealthDisplay.setText("GREEN HEALTH: " + (game.getPlayerTwo().getHealth()));
+            gameScoreDisplay.setText(game.getPlayerOneScore() + "-" + game.getPlayerTwoScore());
+            repaint();
+        } else {
+            playerOneHealthDisplay.setText("");
+            playerTwoHealthDisplay.setText("");
+            gameScoreDisplay.setText(game.getStringResult());
+        }
     }
 }

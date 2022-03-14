@@ -2,10 +2,12 @@ package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import persistence.JsonWriter;
 import persistence.Writable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /*
@@ -14,12 +16,15 @@ import java.util.ArrayList;
 
 public class TankGame implements Writable {
 
+    private JsonWriter jsonWriter;
+    private static final String JSON_STORE = "./data/savedgame.json";
+
     public static final int TICKS_PER_SECOND = 10;
     public static final int MAX_SCORE = 3;
 
     public final Tank playerOne;
     public final Tank playerTwo;
-    private final ArrayList<Missile> missiles;
+    protected final ArrayList<Missile> missiles;
     public final int xboundary;
     public final int yboundary;
 
@@ -37,6 +42,7 @@ public class TankGame implements Writable {
         this.playerTwo = new Tank(xboundary - Tank.TANK_WIDTH, yboundary - Tank.TANK_HEIGHT, 0, 0);
         this.playerOneScore = 0;
         this.playerTwoScore = 0;
+        jsonWriter = new JsonWriter(JSON_STORE);
     }
 
     // EFFECTS: constructs a TankGame in a specified state
@@ -73,7 +79,7 @@ public class TankGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: returns the tanks to initial positions and increments their scores accordingly
-    private void resetGame() {
+    protected void resetGame() {
         if (playerOne.getHealth() < 1
                 && playerTwo.getHealth() < 1) {
             this.playerOneScore++;
@@ -100,7 +106,7 @@ public class TankGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: checks if player exits boundaries and deals damage accordingly
-    private void handlePlayerBoundaries(Tank tank) {
+    protected void handlePlayerBoundaries(Tank tank) {
         if (tank.getXcoord() - (Tank.TANK_WIDTH / 2) < 0) {
             tank.setCoordinates(Tank.TANK_WIDTH / 2, tank.getYcoord());
             tank.setDirection(Tank.TANK_SPEED, tank.getDy());
@@ -151,7 +157,7 @@ public class TankGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: removes missiles that have exited screen bounds
-    private void filterBoundaryMissiles() {
+    protected void filterBoundaryMissiles() {
         ArrayList<Missile> toRemove = new ArrayList<>();
         for (Missile next : missiles) {
             if (outsideScreenBounds(next.getXcoord(), next.getYcoord())) {
@@ -172,7 +178,7 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: checks for missiles that have hit the given player
     //          then deals damage and removes appropriate missiles
-    private void handlePlayerMissileCollisions(Tank player) {
+    protected void handlePlayerMissileCollisions(Tank player) {
         ArrayList<Missile> toRemove = new ArrayList<>();
         for (Missile next : missiles) {
             if (player.checkTankHitByMissile(next)) {
@@ -185,7 +191,7 @@ public class TankGame implements Writable {
 
     // MODIFIES: this
     // EFFECTS: deals damage to both players if they collide
-    private void handlePlayerTankCollisions() {
+    protected void handlePlayerTankCollisions() {
         if (playerOne.xcoord + (Tank.TANK_WIDTH / 2) > playerTwo.xcoord - (Tank.TANK_WIDTH / 2)
                 && playerOne.xcoord + (Tank.TANK_WIDTH / 2) < playerTwo.xcoord + (Tank.TANK_WIDTH / 2)
                 && playerOne.ycoord + (Tank.TANK_HEIGHT / 2) < playerTwo.ycoord + (Tank.TANK_HEIGHT / 2)
@@ -203,12 +209,12 @@ public class TankGame implements Writable {
     }
 
     // EFFECTS: returns true if game is over (namely if player 1 or 2 has 0 health)
-    private boolean checkGameOver() {
+    protected boolean checkGameOver() {
         return playerOne.getHealth() < 1 || playerTwo.getHealth() < 1;
     }
 
     // EFFECTS: returns result of the game
-    public String getResult() {
+    public String getStringResult() {
         if (getPlayerTwoScore() >= TankGame.MAX_SCORE
                 && getPlayerOneScore() >= TankGame.MAX_SCORE) {
             return "DRAW";
@@ -266,6 +272,16 @@ public class TankGame implements Writable {
             case KeyEvent.VK_COMMA :
                 this.playerFireMissile(playerTwo);
                 break;
+            case KeyEvent.VK_T :
+                saveGame();
+                break;
+            case KeyEvent.VK_R :
+                if (isEnded()) {
+                    resetTanks();
+                    this.playerOneScore = 0;
+                    this.playerTwoScore = 0;
+                }
+
         }
     }
 
@@ -331,6 +347,16 @@ public class TankGame implements Writable {
             jsonArray.put(next.toJson());
         }
         return jsonArray;
+    }
+
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(this);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Game could not be saved to the file: " + JSON_STORE);
+        }
     }
 
 }
