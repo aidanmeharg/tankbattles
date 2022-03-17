@@ -41,13 +41,13 @@ public class GamePanel extends JPanel {
         g.setColor(new Color(250, 227, 227));
         g.setFont(new Font("American Typewriter", Font.BOLD, 30));
         FontMetrics fm = g.getFontMetrics();
-        centreString("GAME OVER", g, fm, game.yboundary / 2 - 25);
+        centreString("GAME OVER", g, fm, game.yboundary / 2 - 50);
         g.setColor(game.getWinningColor());
-        centreString(game.getStringResult(), g, fm, game.yboundary / 2 + 25);
+        centreString(game.getStringResult(), g, fm, game.yboundary / 2);
         g.setColor(new Color(250, 227, 227));
         g.setFont(new Font("American Typewriter", Font.PLAIN, 15));
         FontMetrics metrics = g.getFontMetrics();
-        centreString("hit r to run it back", g, metrics, game.yboundary / 2 + 50);
+        centreString("hit r to run it back", g, metrics, game.yboundary / 2 + 25);
         g.setColor(saved);
     }
 

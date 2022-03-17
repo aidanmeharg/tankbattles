@@ -30,6 +30,7 @@ public class TankGame implements Writable {
 
     private int playerOneScore;
     private int playerTwoScore;
+    private boolean resultReceived;
 
 
     // EFFECTS: constructs a new tank game with boundaries and 2 players
@@ -42,6 +43,7 @@ public class TankGame implements Writable {
         this.playerTwo = new Tank(xboundary - Tank.TANK_WIDTH, yboundary - Tank.TANK_HEIGHT, 0, 0);
         this.playerOneScore = 0;
         this.playerTwoScore = 0;
+        resultReceived = false;
         jsonWriter = new JsonWriter(JSON_STORE);
     }
 
@@ -70,7 +72,6 @@ public class TankGame implements Writable {
         handlePlayerBoundaries(playerTwo);
         handlePlayerMissileCollisions(playerOne);
         handlePlayerMissileCollisions(playerTwo);
-        handlePlayerTankCollisions();
         filterBoundaryMissiles();
         if (checkGameOver()) {
             resetGame();
@@ -90,6 +91,7 @@ public class TankGame implements Writable {
             this.playerOneScore++;
         }
         resetTanks();
+        missiles.clear();
     }
 
     // MODIFIES: this
@@ -189,17 +191,6 @@ public class TankGame implements Writable {
         missiles.removeAll(toRemove);
     }
 
-    // MODIFIES: this
-    // EFFECTS: deals damage to both players if they collide
-    protected void handlePlayerTankCollisions() {
-        if (playerOne.xcoord + (Tank.TANK_WIDTH / 2) > playerTwo.xcoord - (Tank.TANK_WIDTH / 2)
-                && playerOne.xcoord + (Tank.TANK_WIDTH / 2) < playerTwo.xcoord + (Tank.TANK_WIDTH / 2)
-                && playerOne.ycoord + (Tank.TANK_HEIGHT / 2) < playerTwo.ycoord + (Tank.TANK_HEIGHT / 2)
-                && playerOne.ycoord - (Tank.TANK_HEIGHT / 2) > playerTwo.ycoord - (Tank.TANK_HEIGHT / 2)) {
-            playerOne.decreaseHealth();
-            playerTwo.decreaseHealth();
-        }
-    }
 
     // MODIFIES: this
     // EFFECTS: decreases the coolDown times of player 1 and 2
@@ -216,11 +207,15 @@ public class TankGame implements Writable {
     // EFFECTS: returns result of the game
     public String getStringResult() {
         if (getPlayerTwoScore() >= TankGame.MAX_SCORE
-                && getPlayerOneScore() >= TankGame.MAX_SCORE) {
+                && getPlayerOneScore() >= TankGame.MAX_SCORE
+                && !resultReceived) {
+            resultReceived = true;
             return "DRAW";
         } else if (getPlayerOneScore() >= TankGame.MAX_SCORE) {
+            resultReceived = true;
             return "RED WINS";
         } else {
+            resultReceived = true;
             return "GREEN WINS";
         }
     }
@@ -228,7 +223,8 @@ public class TankGame implements Writable {
     // EFFECTS: returns colour of winning tank
     public Color getWinningColor() {
         if (getPlayerTwoScore() >= TankGame.MAX_SCORE
-                && getPlayerOneScore() >= TankGame.MAX_SCORE) {
+                && getPlayerOneScore() >= TankGame.MAX_SCORE
+                && !resultReceived) {
             return Color.WHITE;
         } else if (getPlayerOneScore() >= TankGame.MAX_SCORE) {
             return Color.RED;
@@ -242,40 +238,40 @@ public class TankGame implements Writable {
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public void keyPressed(int keyCode) {
         switch (keyCode) {
-            case KeyEvent.VK_W :
-                this.playerOne.setDirection(0, - Tank.TANK_SPEED);
+            case KeyEvent.VK_W:
+                this.playerOne.setDirection(0, -Tank.TANK_SPEED);
                 break;
-            case KeyEvent.VK_S :
+            case KeyEvent.VK_S:
                 this.playerOne.setDirection(0, Tank.TANK_SPEED);
                 break;
-            case KeyEvent.VK_A :
-                this.playerOne.setDirection(- Tank.TANK_SPEED, 0);
+            case KeyEvent.VK_A:
+                this.playerOne.setDirection(-Tank.TANK_SPEED, 0);
                 break;
-            case KeyEvent.VK_D :
+            case KeyEvent.VK_D:
                 this.playerOne.setDirection(Tank.TANK_SPEED, 0);
                 break;
-            case KeyEvent.VK_SPACE :
+            case KeyEvent.VK_SPACE:
                 this.playerFireMissile(playerOne);
                 break;
-            case KeyEvent.VK_UP :
-                this.playerTwo.setDirection(0, - Tank.TANK_SPEED);
+            case KeyEvent.VK_UP:
+                this.playerTwo.setDirection(0, -Tank.TANK_SPEED);
                 break;
-            case KeyEvent.VK_DOWN :
+            case KeyEvent.VK_DOWN:
                 this.playerTwo.setDirection(0, Tank.TANK_SPEED);
                 break;
-            case KeyEvent.VK_LEFT :
-                this.playerTwo.setDirection(- Tank.TANK_SPEED, 0);
+            case KeyEvent.VK_LEFT:
+                this.playerTwo.setDirection(-Tank.TANK_SPEED, 0);
                 break;
-            case KeyEvent.VK_RIGHT :
+            case KeyEvent.VK_RIGHT:
                 this.playerTwo.setDirection(Tank.TANK_SPEED, 0);
                 break;
-            case KeyEvent.VK_COMMA :
+            case KeyEvent.VK_COMMA:
                 this.playerFireMissile(playerTwo);
                 break;
-            case KeyEvent.VK_T :
+            case KeyEvent.VK_T:
                 saveGame();
                 break;
-            case KeyEvent.VK_R :
+            case KeyEvent.VK_R:
                 if (isEnded()) {
                     resetTanks();
                     this.playerOneScore = 0;

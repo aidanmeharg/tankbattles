@@ -5,14 +5,16 @@ package model;
  * NPC will fire missile whenever possible and move towards the player controlled tank
  */
 
+import org.json.JSONObject;
+
 public class OnePlayerGame extends TankGame {
 
     private int turningCoolDown;
     private final int turnDelay;
 
-    public static final int EASY_TURN_DELAY = 20;
-    public static final int MEDIUM_TURN_DELAY = 15;
-    public static final int DIFFICULT_TURN_DELAY = 10;
+    public static final int EASY_TURN_DELAY = 100;
+    public static final int MEDIUM_TURN_DELAY = 80;
+    public static final int DIFFICULT_TURN_DELAY = 60;
 
 
     // EFFECTS: constructs a new game with given turn delay time for bot
@@ -33,9 +35,9 @@ public class OnePlayerGame extends TankGame {
     // MODIFIES: this
     // EFFECTS: controls behaviour of simple bot opponent
     private void controlBot() {
-        int displacementX = playerOne.xcoord - playerTwo.xcoord;
-        int displacementY = playerOne.ycoord - playerTwo.ycoord;
-        if (turningCoolDown <= 0) {
+        if (turningCoolDown <= 0 || isBotHittingWall()) {
+            int displacementX = playerOne.xcoord - playerTwo.xcoord;
+            int displacementY = playerOne.ycoord - playerTwo.ycoord;
             if (Math.abs(displacementX) > Math.abs(displacementY)) {
                 if (displacementX < 0) {
                     playerTwo.setDirection(-Tank.TANK_SPEED, 0);
@@ -47,11 +49,18 @@ public class OnePlayerGame extends TankGame {
             } else {
                 playerTwo.setDirection(0, Tank.TANK_SPEED);
             }
-            playerFireMissile(playerTwo);
             turningCoolDown = turnDelay;
         }
+        playerFireMissile(playerTwo);
         turningCoolDown--;
 
+    }
+
+    private boolean isBotHittingWall() {
+        return playerTwo.xcoord - (Tank.TANK_WIDTH / 2) - 1 <= 0
+                || playerTwo.xcoord + (Tank.TANK_WIDTH / 2) + 1 >= xboundary
+                || playerTwo.ycoord - (Tank.TANK_HEIGHT / 2) - 1 <= 0
+                || playerTwo.ycoord + (Tank.TANK_HEIGHT / 2) + 1 >= yboundary;
     }
 
     public int getTurningCoolDown() {
@@ -65,5 +74,14 @@ public class OnePlayerGame extends TankGame {
     public int getTurnDelay() {
         return turnDelay;
     }
+
+//    @Override
+//    public JSONObject toJson() {
+//        JSONObject json = super.toJson();
+//        json.put("turnDelay", this.turnDelay);
+//        json.put("turningCoolDown", this.turningCoolDown);
+//        return json;
+//
+//    }
 
 }

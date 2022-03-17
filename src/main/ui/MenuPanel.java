@@ -1,8 +1,7 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class MenuPanel extends JPanel {
 
@@ -10,12 +9,24 @@ public class MenuPanel extends JPanel {
 
     public MenuPanel(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
-        JButton newGameButton = new JButton("New Game");
-        newGameButton.addActionListener(e -> {
+        JButton newOnePlayerGameButton = new JButton("New 1 Player Game");
+        newOnePlayerGameButton.addActionListener(e -> {
             gameGUI.startNewOnePlayerGame();
         });
+        JButton newTwoPlayerGameButton = new JButton("New 2 Player Game");
+        newTwoPlayerGameButton.addActionListener(e -> {
+            gameGUI.startNewTwoPlayerGame();
+        });
+        JButton loadSavedTwoPlayerGameButton = new JButton("Load Saved 2P Game");
+        loadSavedTwoPlayerGameButton.addActionListener(e -> {
+            gameGUI.loadTwoPlayerGame();
+        });
+
 
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        add(newGameButton);
+        setLayout(new GridLayout(3, 1));
+        add(newOnePlayerGameButton);
+        add(newTwoPlayerGameButton);
+        add(loadSavedTwoPlayerGameButton);
     }
 }
