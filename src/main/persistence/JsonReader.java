@@ -27,16 +27,21 @@ public class JsonReader {
         this.source = source;
     }
 
+
     // EFFECTS: reads TankGame from file and returns it, throws IOException if errors occur in reading
-    public TankGame read(boolean onePlayer) throws IOException {
+    public TankGame readTwoPlayerGame() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        if (onePlayer) {
-            return parseOnePlayerGame(jsonObject);
-        } else {
-            return parseTankGame(jsonObject);
-        }
+        return parseTankGame(jsonObject);
     }
+
+    // EFFECTS: reads OnePlayerGame from file and returns it, throws IOException if errors occur in reading
+    public OnePlayerGame readOnePlayerGame() throws IOException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parseOnePlayerGame(jsonObject);
+    }
+
 
     // EFFECTS: reads source file as string and returns it
     public String readFile(String source) throws IOException {

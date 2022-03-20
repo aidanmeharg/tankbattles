@@ -68,7 +68,7 @@ public class GameGUI extends JFrame {
     // EFFECTS: loads the saved game from source file
     public void loadTwoPlayerGame() {
         try {
-            game = twoPlayerJsonReader.read(false);
+            game = twoPlayerJsonReader.readTwoPlayerGame();
             initializeGame();
 
         } catch (IOException e) {
@@ -78,7 +78,7 @@ public class GameGUI extends JFrame {
 
     public void loadOnePlayerGame() {
         try {
-            game = onePlayerJsonReader.read(true);
+            game = onePlayerJsonReader.readOnePlayerGame();
             initializeGame();
         } catch (IOException e) {
             System.out.println("unable to read from file");

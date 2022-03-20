@@ -1,0 +1,23 @@
+{
+    "yboundary": 600,
+    "playerTwoX": 500,
+    "playerTwoY": 380,
+    "playerOneScore": 1,
+    "playerOneHealth": 3,
+    "turningCoolDown": 12,
+    "playerTwoCoolDown": 0,
+    "playerOneCoolDown": 0,
+    "playerTwoHealth": 3,
+    "resultReceived": false,
+    "turnDelay": 70,
+    "playerOneX": 140,
+    "playerTwoScore": 2,
+    "xboundary": 800,
+    "missiles": [{
+        "xcoord": 315,
+        "dx": 3,
+        "dy": 0,
+        "ycoord": 405
+    }],
+    "playerOneY": 250
+}
