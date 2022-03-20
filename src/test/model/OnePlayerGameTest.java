@@ -56,8 +56,8 @@ public class OnePlayerGameTest {
 
     @Test
     void testBotMoveDown() {
-        game.playerOne.setCoordinates(5, 70);
-        game.playerTwo.setCoordinates(4, 4);
+        game.playerOne.setCoordinates(400, 70);
+        game.playerTwo.setCoordinates(401, 10);
         game.setTurningCoolDown(0);
         game.tick();
         assertEquals(0, game.playerTwo.dx);

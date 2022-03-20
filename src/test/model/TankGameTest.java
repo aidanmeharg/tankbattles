@@ -2,6 +2,10 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TankGameTest {
@@ -59,16 +63,16 @@ public class TankGameTest {
 
     @Test
     void testHandleLeftBoundary() {
-        game.getPlayerOne().setCoordinates(Tank.TANK_SPEED, 0);
-        game.getPlayerOne().setDirection(- Tank.TANK_SPEED, 0);
+        game.getPlayerOne().setCoordinates(Tank.TANK_SPEED + (Tank.TANK_WIDTH / 2), Tank.TANK_HEIGHT);
+        game.keyPressed(KeyEvent.VK_A);
         game.tick();
 
-        assertEquals(0, game.getPlayerOne().getXcoord());
+        assertEquals(Tank.TANK_WIDTH / 2, game.getPlayerOne().getXcoord());
         assertEquals(- Tank.TANK_SPEED, game.getPlayerOne().getDx());
         assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
 
         game.tick();
-        assertEquals(0, game.getPlayerOne().getXcoord());
+        assertEquals(Tank.TANK_WIDTH / 2, game.getPlayerOne().getXcoord());
         assertEquals(Tank.TANK_SPEED, game.getPlayerOne().getDx());
         assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
 
@@ -76,58 +80,58 @@ public class TankGameTest {
 
     @Test
     void testHandleRightBoundary() {
-        game.getPlayerOne().setCoordinates(100 - Tank.TANK_SPEED, 0);
-        game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);
+        game.getPlayerOne().setCoordinates(100 - Tank.TANK_SPEED - (Tank.TANK_WIDTH / 2), Tank.TANK_HEIGHT);
+        game.keyPressed(KeyEvent.VK_D);
         game.tick();
 
-        assertEquals(100, game.getPlayerOne().getXcoord());
+        assertEquals(100 - (Tank.TANK_WIDTH / 2), game.getPlayerOne().getXcoord());
         assertEquals(Tank.TANK_SPEED, game.getPlayerOne().getDx());
         assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
 
         game.tick();
 
-        assertEquals(100, game.getPlayerOne().getXcoord());
+        assertEquals(100 - (Tank.TANK_WIDTH / 2), game.getPlayerOne().getXcoord());
         assertEquals(- Tank.TANK_SPEED, game.getPlayerOne().getDx());
         assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
     }
 
     @Test
     void testHandleTopBoundary() {
-        game.getPlayerOne().setCoordinates(0, Tank.TANK_SPEED);
-        game.getPlayerOne().setDirection(0, - Tank.TANK_SPEED);
+        game.getPlayerOne().setCoordinates(Tank.TANK_WIDTH, Tank.TANK_SPEED + (Tank.TANK_HEIGHT / 2));
+        game.keyPressed(KeyEvent.VK_W);
         game.tick();
 
-        assertEquals(0, game.getPlayerOne().getYcoord());
+        assertEquals(Tank.TANK_HEIGHT / 2, game.getPlayerOne().getYcoord());
         assertEquals(- Tank.TANK_SPEED, game.getPlayerOne().getDy());
         assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
 
         game.tick();
 
-        assertEquals(0, game.getPlayerOne().getYcoord());
+        assertEquals(Tank.TANK_HEIGHT / 2, game.getPlayerOne().getYcoord());
         assertEquals(Tank.TANK_SPEED, game.getPlayerOne().getDy());
         assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
     }
 
     @Test
     void testHandleBottomBoundary() {
-        game.getPlayerOne().setCoordinates(0, 100 - Tank.TANK_SPEED);
-        game.getPlayerOne().setDirection(0, Tank.TANK_SPEED);
+        game.getPlayerOne().setCoordinates(Tank.TANK_WIDTH / 2, 100 - Tank.TANK_SPEED - (Tank.TANK_HEIGHT / 2));
+        game.keyPressed(KeyEvent.VK_S);
         game.tick();
 
-        assertEquals(100, game.getPlayerOne().getYcoord());
+        assertEquals(100 - (Tank.TANK_HEIGHT / 2), game.getPlayerOne().getYcoord());
         assertEquals(Tank.TANK_SPEED, game.getPlayerOne().getDy());
         assertEquals(Tank.STARTING_HEALTH, game.getPlayerOne().getHealth());
 
         game.tick();
 
-        assertEquals(100, game.getPlayerOne().getYcoord());
+        assertEquals(100 - (Tank.TANK_HEIGHT / 2), game.getPlayerOne().getYcoord());
         assertEquals(- Tank.TANK_SPEED, game.getPlayerOne().getDy());
         assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
     }
 
     @Test
     void testPlayerFireMissileNoDirection() {
-        game.playerFireMissile(game.getPlayerOne());
+        game.keyPressed(KeyEvent.VK_SPACE);
         assertEquals(0, game.getMissiles().size());
     }
 
@@ -196,7 +200,7 @@ public class TankGameTest {
 
     @Test
     void testFilterBoundaryMissiles() {
-        game.getPlayerOne().setCoordinates(Missile.MISSILE_SPEED + 1,0);
+        game.getPlayerOne().setCoordinates(Missile.MISSILE_SPEED + 1 + Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
         game.getPlayerOne().setDirection(- Tank.TANK_SPEED, 0);
         game.playerFireMissile(game.getPlayerOne());
         game.tick();
@@ -230,27 +234,12 @@ public class TankGameTest {
         assertTrue(game.isEnded());
     }
 
-    @Test
-    void testPlayerTanksCollide() {
-        game.getPlayerTwo().setCoordinates(4, 4);
-        game.tick();
-        assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerOne().getHealth());
-        assertEquals(Tank.STARTING_HEALTH - 1, game.getPlayerTwo().getHealth());
-    }
 
-    @Test
-    void testPlayerTanksSameXButNoCollision() {
-        game.playerTwo.setCoordinates(4, 5);
-        game.tick();
-        assertEquals(Tank.STARTING_HEALTH, game.playerOne.getHealth());
-        assertEquals(Tank.STARTING_HEALTH, game.playerTwo.getHealth());
-    }
 
     @Test
     void testResetGameBothTanksDestroyed() {
-        game.getPlayerOne().setHealth(1);
-        game.getPlayerTwo().setHealth(1);
-        game.getPlayerTwo().setCoordinates(4, 4);
+        game.getPlayerOne().setHealth(0);
+        game.getPlayerTwo().setHealth(0);
         game.tick();
 
         assertEquals(1, game.getPlayerOneScore());
@@ -259,10 +248,10 @@ public class TankGameTest {
 
     @Test
     void testHandlePlayerMissileCollisions() {
-        game.getPlayerOne().setCoordinates(0,0);
+        game.getPlayerOne().setCoordinates(Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
         game.getPlayerOne().setDirection(Tank.TANK_SPEED, 0);
-        game.getPlayerTwo().setCoordinates(Missile.MISSILE_SPEED + Tank.TANK_SPEED + 1, 0);
-        game.getPlayerTwo().setDirection(- Tank.TANK_SPEED,  0);
+        game.getPlayerTwo().setCoordinates(2* Tank.TANK_WIDTH + 1,
+                Tank.TANK_HEIGHT);
 
         game.playerFireMissile(game.getPlayerOne());
 
@@ -312,5 +301,104 @@ public class TankGameTest {
     void testOutsideScreenBoundsRight() {
         assertTrue(game.outsideScreenBounds(101, 50));
     }
+
+    @Test
+    void testGetStringResultDrawResultNotReceived() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        assertEquals("DRAW", game.getStringResult());
+        assertTrue(game.getResultReceived());
+    }
+
+    @Test
+    void testGetStringResultDrawResultReceived() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        game.setResultReceived(true);
+        assertEquals("RED WINS", game.getStringResult());
+        assertTrue(game.getResultReceived());
+    }
+
+    @Test
+    void testGetStringResultPlayerTwo() {
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        assertEquals("GREEN WINS", game.getStringResult());
+        assertTrue(game.getResultReceived());
+    }
+
+    @Test
+    void testGetStringResultPlayerOne() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        assertEquals("RED WINS", game.getStringResult());
+        assertTrue(game.getResultReceived());
+    }
+
+    @Test
+    void testGetWinningColorDraw() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        assertEquals(Color.WHITE, game.getWinningColor());
+    }
+
+    @Test
+    void testGetWinningColorDrawResultReceived() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        game.setResultReceived(true);
+        assertEquals(Color.RED, game.getWinningColor());
+    }
+
+    @Test
+    void testGetWinningColorPlayerOne() {
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        assertEquals(Color.RED, game.getWinningColor());
+    }
+
+    @Test
+    void testGetWinningColorPlayerTwo() {
+        game.setPlayerTwoScore(TankGame.MAX_SCORE);
+        assertEquals(Color.GREEN, game.getWinningColor());
+    }
+
+    @Test
+    void testKeyPressedPlayerTwo() {
+        game.keyPressed(KeyEvent.VK_LEFT);
+        assertEquals(- Tank.TANK_SPEED, game.playerTwo.dx);
+        game.keyPressed(KeyEvent.VK_UP);
+        assertEquals(- Tank.TANK_SPEED, game.playerTwo.dy);
+        game.keyPressed(KeyEvent.VK_COMMA);
+        assertEquals(1, game.getMissiles().size());
+        game.keyPressed(KeyEvent.VK_RIGHT);
+        assertEquals(Tank.TANK_SPEED, game.playerTwo.dx);
+        game.keyPressed(KeyEvent.VK_DOWN);
+        assertEquals(Tank.TANK_SPEED, game.playerTwo.dy);
+    }
+
+    @Test
+    void testResetGame() {
+        game.playerOne.setCoordinates(44, 44);
+        game.playerTwo.setCoordinates(51, 51);
+        game.keyPressed(KeyEvent.VK_RIGHT);
+        game.keyPressed(KeyEvent.VK_A);
+        game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.keyPressed(KeyEvent.VK_R);
+        assertEquals(0, game.getPlayerOneScore());
+        assertEquals(0, game.getPlayerTwoScore());
+        assertEquals(Tank.TANK_WIDTH, game.playerOne.xcoord);
+        assertEquals(Tank.TANK_HEIGHT, game.playerOne.ycoord);
+        assertEquals(Tank.STARTING_HEALTH, game.playerOne.getHealth());
+        assertEquals(0, game.playerOne.dx);
+        assertEquals(0, game.playerOne.dy);
+
+        assertEquals(100 - Tank.TANK_WIDTH, game.playerTwo.xcoord);
+        assertEquals(100 - Tank.TANK_HEIGHT, game.playerTwo.ycoord);
+        assertEquals(Tank.STARTING_HEALTH, game.playerTwo.getHealth());
+        assertEquals(0, game.playerTwo.dx);
+        assertEquals(0, game.playerTwo.dy);
+
+    }
+
+
+
 
 }

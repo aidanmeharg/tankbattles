@@ -2,13 +2,11 @@ package model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.JsonWriter;
 import persistence.Writable;
 import ui.AudioPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /*
@@ -17,13 +15,11 @@ import java.util.ArrayList;
 
 public class TankGame implements Writable {
 
-    private AudioPlayer audioPlayer = new AudioPlayer();
+    private final AudioPlayer audioPlayer = new AudioPlayer();
     private static final String BOUNDARY_COLLISION_SOUND = "./data/soundeffect1hit.wav";
     private static final String MISSILE_FIRE_SOUND = "./data/soundeffect3shooting.wav";
     private static final String TANK_HIT_SOUND = "./data/soundeffec2shot.wav";
 
-    private JsonWriter jsonWriter;
-    private static final String JSON_STORE = "./data/savedgame.json";
 
     public static final int MAX_SCORE = 3;
 
@@ -49,7 +45,6 @@ public class TankGame implements Writable {
         this.playerOneScore = 0;
         this.playerTwoScore = 0;
         resultReceived = false;
-        jsonWriter = new JsonWriter(JSON_STORE);
     }
 
     // EFFECTS: constructs a TankGame in a specified state
@@ -62,7 +57,6 @@ public class TankGame implements Writable {
         this.playerTwo = playerTwo;
         this.playerOneScore = playerOneScore;
         this.playerTwoScore = playerTwoScore;
-        jsonWriter = new JsonWriter(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -285,9 +279,6 @@ public class TankGame implements Writable {
                 }
                 this.playerFireMissile(playerTwo);
                 break;
-            case KeyEvent.VK_T:
-                saveGame();
-                break;
             case KeyEvent.VK_R:
                 if (isEnded()) {
                     resetTanks();
@@ -331,6 +322,10 @@ public class TankGame implements Writable {
         this.playerTwoScore = score;
     }
 
+    public boolean getResultReceived() {
+        return resultReceived;
+    }
+
     public void setResultReceived(Boolean result) {
         this.resultReceived = result;
     }
@@ -367,14 +362,5 @@ public class TankGame implements Writable {
         return jsonArray;
     }
 
-    private void saveGame() {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(this);
-            jsonWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Game could not be saved to the file: " + JSON_STORE);
-        }
-    }
 
 }

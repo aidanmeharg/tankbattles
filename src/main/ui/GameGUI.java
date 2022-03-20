@@ -3,11 +3,13 @@ package ui;
 import model.OnePlayerGame;
 import model.TankGame;
 import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GameGUI extends JFrame {
@@ -17,7 +19,9 @@ public class GameGUI extends JFrame {
     private static final int FRAME_HEIGHT = 600;
     private static final String JSON_STORE = "./data/savedgame.json";
 
-    private AudioPlayer audioPlayer = new AudioPlayer();
+
+
+    private final AudioPlayer audioPlayer = new AudioPlayer();
     private static final String GAME_MUSIC_PATH = "./data/aidangamenewbattle.wav";
     private static final String MENU_MUSIC_PATH = "./data/aidangamenewmenu.wav";
 
@@ -25,7 +29,8 @@ public class GameGUI extends JFrame {
     private final MenuPanel menuPanel;
     private GamePanel gamePanel;
     private ScorePanel scorePanel;
-    private JsonReader jsonReader = new JsonReader(JSON_STORE);
+    private final JsonReader jsonReader = new JsonReader(JSON_STORE);
+    private final JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
 
 
     // EFFECTS: initializes a new game window
@@ -98,8 +103,23 @@ public class GameGUI extends JFrame {
         @Override
         public void keyPressed(KeyEvent e) {
             game.keyPressed(e.getKeyCode());
+            if (e.getKeyCode() == (KeyEvent.VK_T)) {
+                saveGame();
+            }
         }
     }
+
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(game);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Game could not be saved to the file: " + JSON_STORE);
+        }
+    }
+
+
 
 
     // MODIFIES: this
