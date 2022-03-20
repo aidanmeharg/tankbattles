@@ -13,7 +13,7 @@ public class JsonReaderTest {
     void testReadNonExistentFile() {
         JsonReader jsonReader = new JsonReader("./data/thisFileDoesNotExist.json");
         try {
-            TankGame game = jsonReader.read();
+            TankGame game = jsonReader.read(false);
             fail("Expected IO exception");
         } catch (IOException e) {
             // pass
@@ -24,7 +24,7 @@ public class JsonReaderTest {
     void testReadSavedGame() {
         JsonReader jsonReader = new JsonReader("./data/testReaderSavedGame.json");
         try {
-            TankGame game = jsonReader.read();
+            TankGame game = jsonReader.read(false);
             assertEquals(39, game.xboundary);
             assertEquals(22, game.yboundary);
             assertEquals(1, game.getPlayerOneScore());

@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Missile;
+import model.OnePlayerGame;
 import model.TankGame;
 import model.Tank;
 import org.json.JSONArray;
@@ -27,10 +28,14 @@ public class JsonReader {
     }
 
     // EFFECTS: reads TankGame from file and returns it, throws IOException if errors occur in reading
-    public TankGame read() throws IOException {
+    public TankGame read(boolean onePlayer) throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseTankGame(jsonObject);
+        if (onePlayer) {
+            return parseOnePlayerGame(jsonObject);
+        } else {
+            return parseTankGame(jsonObject);
+        }
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -66,6 +71,32 @@ public class JsonReader {
         TankGame game = new TankGame(xboundary, yboundary, playerOne, playerTwo,
                 playerOneScore, playerTwoScore);
 
+        addMissiles(game, jsonObject);
+        game.setResultReceived(resultReceived);
+
+        return game;
+    }
+
+    private OnePlayerGame parseOnePlayerGame(JSONObject jsonObject) {
+        int xboundary = jsonObject.getInt("xboundary");
+        int yboundary = jsonObject.getInt("yboundary");
+        int playerOneScore = jsonObject.getInt("playerOneScore");
+        int playerTwoScore = jsonObject.getInt("playerTwoScore");
+        int playerOneX = jsonObject.getInt("playerOneX");
+        int playerOneY = jsonObject.getInt("playerOneY");
+        int playerOneHealth = jsonObject.getInt("playerOneHealth");
+        int playerOneCoolDown = jsonObject.getInt("playerOneCoolDown");
+        int playerTwoX = jsonObject.getInt("playerTwoX");
+        int playerTwoY = jsonObject.getInt("playerTwoY");
+        int playerTwoHealth = jsonObject.getInt("playerTwoHealth");
+        int playerTwoCoolDown = jsonObject.getInt("playerTwoCoolDown");
+        boolean resultReceived = jsonObject.getBoolean("resultReceived");
+        int turnDelay = jsonObject.getInt("turnDelay");
+        int turningCoolDown = jsonObject.getInt("turningCoolDown");
+        Tank playerOne = new Tank(playerOneX, playerOneY, 0, 0, playerOneHealth, playerOneCoolDown);
+        Tank playerTwo = new Tank(playerTwoX, playerTwoY, 0, 0, playerTwoHealth, playerTwoCoolDown);
+        OnePlayerGame game = new OnePlayerGame(xboundary, yboundary, turnDelay, turningCoolDown, playerOne, playerTwo,
+                playerOneScore, playerTwoScore);
         addMissiles(game, jsonObject);
         game.setResultReceived(resultReceived);
 

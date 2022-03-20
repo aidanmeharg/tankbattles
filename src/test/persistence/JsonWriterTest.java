@@ -37,7 +37,7 @@ public class JsonWriterTest {
             jsonWriter.close();
 
             JsonReader jsonReader = new JsonReader("./data/testWriterSavedGame.json");
-            game = jsonReader.read();
+            game = jsonReader.read(false);
             assertEquals(40, game.xboundary);
             assertEquals(45, game.yboundary);
             assertEquals(2, game.getPlayerOneScore());

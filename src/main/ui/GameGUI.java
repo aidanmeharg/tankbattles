@@ -18,6 +18,7 @@ public class GameGUI extends JFrame {
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 600;
     private static final String JSON_STORE = "./data/savedgame.json";
+    private static final String ONE_PLAYER_JSON_STORE = "./data/savedOnePlayerGame.json";
 
 
 
@@ -29,8 +30,12 @@ public class GameGUI extends JFrame {
     private final MenuPanel menuPanel;
     private GamePanel gamePanel;
     private ScorePanel scorePanel;
-    private final JsonReader jsonReader = new JsonReader(JSON_STORE);
-    private final JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
+    private final JsonReader twoPlayerJsonReader = new JsonReader(JSON_STORE);
+    private final JsonWriter twoPlayerJsonWriter = new JsonWriter(JSON_STORE);
+    private final JsonReader onePlayerJsonReader = new JsonReader(ONE_PLAYER_JSON_STORE);
+    private final JsonWriter onePlayerJsonWriter = new JsonWriter(ONE_PLAYER_JSON_STORE);
+
+    private boolean onePlayer;
 
 
 
@@ -50,20 +55,31 @@ public class GameGUI extends JFrame {
     // EFFECTS: begins a new 1P game in this frame
     public void startNewOnePlayerGame(int difficulty) {
         game = new OnePlayerGame(FRAME_WIDTH, FRAME_HEIGHT, difficulty);
+        onePlayer = true;
         initializeGame();
     }
 
     public void startNewTwoPlayerGame() {
         game = new TankGame(FRAME_WIDTH, FRAME_HEIGHT);
+        onePlayer = false;
         initializeGame();
     }
 
     // EFFECTS: loads the saved game from source file
     public void loadTwoPlayerGame() {
         try {
-            game = jsonReader.read();
+            game = twoPlayerJsonReader.read(false);
             initializeGame();
 
+        } catch (IOException e) {
+            System.out.println("unable to read from file");
+        }
+    }
+
+    public void loadOnePlayerGame() {
+        try {
+            game = onePlayerJsonReader.read(true);
+            initializeGame();
         } catch (IOException e) {
             System.out.println("unable to read from file");
         }
@@ -109,12 +125,22 @@ public class GameGUI extends JFrame {
 
 
     private void saveGame() {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(game);
-            jsonWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Game could not be saved to the file: " + JSON_STORE);
+        if (onePlayer) {
+            try {
+                onePlayerJsonWriter.open();
+                onePlayerJsonWriter.write(game);
+                onePlayerJsonWriter.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("Game could not be saved to the file: " + JSON_STORE);
+            }
+        } else {
+            try {
+                twoPlayerJsonWriter.open();
+                twoPlayerJsonWriter.write(game);
+                twoPlayerJsonWriter.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("Game could not be saved to the file: " + JSON_STORE);
+            }
         }
     }
 
