@@ -58,6 +58,7 @@ public class JsonReader {
         int playerTwoY = jsonObject.getInt("playerTwoY");
         int playerTwoHealth = jsonObject.getInt("playerTwoHealth");
         int playerTwoCoolDown = jsonObject.getInt("playerTwoCoolDown");
+        boolean resultReceived = jsonObject.getBoolean("resultReceived");
 
         Tank playerOne = new Tank(playerOneX, playerOneY, 0, 0, playerOneHealth, playerOneCoolDown);
         Tank playerTwo = new Tank(playerTwoX, playerTwoY, 0, 0, playerTwoHealth, playerTwoCoolDown);
@@ -66,9 +67,11 @@ public class JsonReader {
                 playerOneScore, playerTwoScore);
 
         addMissiles(game, jsonObject);
+        game.setResultReceived(resultReceived);
 
         return game;
     }
+
 
     // MODIFIES: TankGame
     // EFFECTS: parses missiles from Json array

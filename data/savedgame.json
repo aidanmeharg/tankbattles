@@ -1,28 +1,43 @@
 {
     "yboundary": 600,
     "playerTwoX": 480,
-    "playerTwoY": 376,
+    "playerTwoY": 499,
     "playerOneScore": 0,
     "playerOneHealth": 3,
-    "playerTwoCoolDown": 2,
+    "turningCoolDown": 73,
+    "playerTwoCoolDown": 13,
     "playerOneCoolDown": 0,
     "playerTwoHealth": 3,
-    "playerOneX": 242,
+    "resultReceived": false,
+    "turnDelay": 90,
+    "playerOneX": 122,
     "playerTwoScore": 0,
     "xboundary": 800,
     "missiles": [
         {
-            "xcoord": 480,
-            "dx": 0,
-            "dy": -6,
-            "ycoord": 152
+            "xcoord": 58,
+            "dx": -6,
+            "dy": 0,
+            "ycoord": 550
+        },
+        {
+            "xcoord": 148,
+            "dx": -6,
+            "dy": 0,
+            "ycoord": 550
+        },
+        {
+            "xcoord": 238,
+            "dx": -6,
+            "dy": 0,
+            "ycoord": 550
         },
         {
             "xcoord": 480,
             "dx": 0,
             "dy": -6,
-            "ycoord": 242
+            "ycoord": 398
         }
     ],
-    "playerOneY": 185
+    "playerOneY": 209
 }

@@ -17,6 +17,10 @@ public class GameGUI extends JFrame {
     private static final int FRAME_HEIGHT = 600;
     private static final String JSON_STORE = "./data/savedgame.json";
 
+    private AudioPlayer audioPlayer = new AudioPlayer();
+    private static final String GAME_MUSIC_PATH = "./data/aidangamenewbattle.wav";
+    private static final String MENU_MUSIC_PATH = "./data/aidangamenewmenu.wav";
+
     private TankGame game;
     private final MenuPanel menuPanel;
     private GamePanel gamePanel;
@@ -24,7 +28,7 @@ public class GameGUI extends JFrame {
     private JsonReader jsonReader = new JsonReader(JSON_STORE);
 
 
-
+    // EFFECTS: initializes a new game window
     public GameGUI() {
         super("Tank Battles");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -34,26 +38,17 @@ public class GameGUI extends JFrame {
         pack();
         centerOnScreen();
         setVisible(true);
+        audioPlayer.playSound(MENU_MUSIC_PATH, true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: begins a new 1P game in this frame
     public void startNewOnePlayerGame() {
         game = new OnePlayerGame(FRAME_WIDTH, FRAME_HEIGHT, 90);
         initializeGame();
 
     }
 
-    private void initializeGame() {
-        remove(menuPanel);
-        gamePanel = new GamePanel(game);
-        scorePanel = new ScorePanel(game);
-        add(gamePanel);
-        add(scorePanel, BorderLayout.NORTH);
-        gamePanel.addKeyListener(new KeyHandler());
-        gamePanel.requestFocus();
-        pack();
-        centerOnScreen();
-        addTimer();
-    }
 
     public void startNewTwoPlayerGame() {
         game = new TankGame(FRAME_WIDTH, FRAME_HEIGHT);
@@ -69,6 +64,21 @@ public class GameGUI extends JFrame {
         } catch (IOException e) {
             System.out.println("unable to read from file");
         }
+    }
+
+    private void initializeGame() {
+        remove(menuPanel);
+        audioPlayer.stopMusic();
+        audioPlayer.playSound(GAME_MUSIC_PATH, true);
+        gamePanel = new GamePanel(game);
+        scorePanel = new ScorePanel(game);
+        add(gamePanel);
+        add(scorePanel, BorderLayout.NORTH);
+        gamePanel.addKeyListener(new KeyHandler());
+        gamePanel.requestFocus();
+        pack();
+        centerOnScreen();
+        addTimer();
     }
 
     // EFFECTS: adds a timer that ticks game every REFRESH_INTERVAL milliseconds

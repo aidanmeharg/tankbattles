@@ -26,6 +26,14 @@ public class OnePlayerGame extends TankGame {
 
     }
 
+    // EFFECTS: constructs new game in specified state
+    public OnePlayerGame(int xboundary, int yboundary, int turnDelay, int turningCoolDown,
+                         Tank playerOne, Tank playerTwo, int playerOneScore, int playerTwoScore) {
+        super(xboundary, yboundary, playerOne, playerTwo, playerOneScore, playerTwoScore);
+        this.turnDelay = turnDelay;
+        this.turningCoolDown = turningCoolDown;
+    }
+
     @Override
     public void tick() {
         controlBot();
@@ -56,6 +64,7 @@ public class OnePlayerGame extends TankGame {
 
     }
 
+    // EFFECTS: returns true if playerTwo is about to hit boundary
     private boolean isBotHittingWall() {
         return playerTwo.xcoord - (Tank.TANK_WIDTH / 2) - 1 <= 0
                 || playerTwo.xcoord + (Tank.TANK_WIDTH / 2) + 1 >= xboundary
@@ -75,13 +84,13 @@ public class OnePlayerGame extends TankGame {
         return turnDelay;
     }
 
-//    @Override
-//    public JSONObject toJson() {
-//        JSONObject json = super.toJson();
-//        json.put("turnDelay", this.turnDelay);
-//        json.put("turningCoolDown", this.turningCoolDown);
-//        return json;
-//
-//    }
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("turnDelay", this.turnDelay);
+        json.put("turningCoolDown", this.turningCoolDown);
+        return json;
+
+    }
 
 }

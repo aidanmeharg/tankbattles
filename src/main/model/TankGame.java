@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.JsonWriter;
 import persistence.Writable;
+import ui.AudioPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,10 +17,14 @@ import java.util.ArrayList;
 
 public class TankGame implements Writable {
 
+    private AudioPlayer audioPlayer = new AudioPlayer();
+    private static final String BOUNDARY_COLLISION_SOUND = "./data/soundeffect1hit.wav";
+    private static final String MISSILE_FIRE_SOUND = "./data/soundeffect3shooting.wav";
+    private static final String TANK_HIT_SOUND = "./data/soundeffec2shot.wav";
+
     private JsonWriter jsonWriter;
     private static final String JSON_STORE = "./data/savedgame.json";
 
-    public static final int TICKS_PER_SECOND = 10;
     public static final int MAX_SCORE = 3;
 
     public final Tank playerOne;
@@ -57,6 +62,7 @@ public class TankGame implements Writable {
         this.playerTwo = playerTwo;
         this.playerOneScore = playerOneScore;
         this.playerTwoScore = playerTwoScore;
+        jsonWriter = new JsonWriter(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -113,18 +119,22 @@ public class TankGame implements Writable {
             tank.setCoordinates(Tank.TANK_WIDTH / 2, tank.getYcoord());
             tank.setDirection(Tank.TANK_SPEED, tank.getDy());
             tank.decreaseHealth();
+            audioPlayer.playSound(BOUNDARY_COLLISION_SOUND, false);
         } else if (tank.getXcoord() + (Tank.TANK_WIDTH / 2) > xboundary) {
             tank.setCoordinates(xboundary - (Tank.TANK_WIDTH / 2), tank.getYcoord());
             tank.setDirection(-Tank.TANK_SPEED, tank.getDy());
             tank.decreaseHealth();
+            audioPlayer.playSound(BOUNDARY_COLLISION_SOUND, false);
         } else if (tank.getYcoord() - (Tank.TANK_HEIGHT / 2) < 0) {
             tank.setCoordinates(tank.getXcoord(), Tank.TANK_HEIGHT / 2);
             tank.setDirection(tank.getDx(), Tank.TANK_SPEED);
             tank.decreaseHealth();
+            audioPlayer.playSound(BOUNDARY_COLLISION_SOUND, false);
         } else if (tank.getYcoord() + (Tank.TANK_HEIGHT / 2) > yboundary) {
             tank.setCoordinates(tank.getXcoord(), yboundary - (Tank.TANK_HEIGHT / 2));
             tank.setDirection(tank.getDx(), -Tank.TANK_SPEED);
             tank.decreaseHealth();
+            audioPlayer.playSound(BOUNDARY_COLLISION_SOUND, false);
         }
     }
 
@@ -186,6 +196,7 @@ public class TankGame implements Writable {
             if (player.checkTankHitByMissile(next)) {
                 player.decreaseHealth();
                 toRemove.add(next);
+                audioPlayer.playSound(TANK_HIT_SOUND, false);
             }
         }
         missiles.removeAll(toRemove);
@@ -251,6 +262,9 @@ public class TankGame implements Writable {
                 this.playerOne.setDirection(Tank.TANK_SPEED, 0);
                 break;
             case KeyEvent.VK_SPACE:
+                if (playerOne.getCoolDown() == 0) {
+                    audioPlayer.playSound(MISSILE_FIRE_SOUND, false);
+                }
                 this.playerFireMissile(playerOne);
                 break;
             case KeyEvent.VK_UP:
@@ -266,6 +280,9 @@ public class TankGame implements Writable {
                 this.playerTwo.setDirection(Tank.TANK_SPEED, 0);
                 break;
             case KeyEvent.VK_COMMA:
+                if (playerOne.getCoolDown() == 0) {
+                    audioPlayer.playSound(MISSILE_FIRE_SOUND, false);
+                }
                 this.playerFireMissile(playerTwo);
                 break;
             case KeyEvent.VK_T:
@@ -314,6 +331,10 @@ public class TankGame implements Writable {
         this.playerTwoScore = score;
     }
 
+    public void setResultReceived(Boolean result) {
+        this.resultReceived = result;
+    }
+
 
     @Override
     public JSONObject toJson() {
@@ -331,6 +352,7 @@ public class TankGame implements Writable {
         json.put("xboundary", this.xboundary);
         json.put("yboundary", this.yboundary);
         json.put("missiles", missilesToJson());
+        json.put("resultReceived", this.resultReceived);
 
         return json;
     }
