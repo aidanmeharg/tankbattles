@@ -63,4 +63,32 @@ public class OnePlayerGameTest {
         assertEquals(0, game.playerTwo.dx);
         assertEquals(Tank.TANK_SPEED, game.playerTwo.dy);
     }
+
+    @Test
+    void testLeftBoundaryBotTurningCoolDown() {
+        game.playerTwo.setCoordinates(Tank.TANK_WIDTH / 2 + 1, 200);
+        game.tick();
+        assertEquals(14, game.getTurningCoolDown());
+    }
+
+    @Test
+    void testRightBoundaryBotTurningCoolDown() {
+        game.playerTwo.setCoordinates(800 - Tank.TANK_WIDTH / 2 - 1, 200);
+        game.tick();
+        assertEquals(14, game.getTurningCoolDown());
+    }
+
+    @Test
+    void testBottomBoundaryBotTurningCoolDown() {
+        game.playerTwo.setCoordinates(200, 800 - Tank.TANK_HEIGHT / 2 - 1);
+        game.tick();
+        assertEquals(14, game.getTurningCoolDown());
+    }
+
+    @Test
+    void testTopBoundaryBotTurningCoolDown() {
+        game.playerTwo.setCoordinates(200, Tank.TANK_HEIGHT / 2 + 1);
+        game.tick();
+        assertEquals(14, game.getTurningCoolDown());
+    }
 }

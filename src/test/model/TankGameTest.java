@@ -381,6 +381,7 @@ public class TankGameTest {
         game.keyPressed(KeyEvent.VK_RIGHT);
         game.keyPressed(KeyEvent.VK_A);
         game.setPlayerOneScore(TankGame.MAX_SCORE);
+        game.getMissiles().add(new Missile(20, 30, 3, 0));
         game.keyPressed(KeyEvent.VK_R);
         assertEquals(0, game.getPlayerOneScore());
         assertEquals(0, game.getPlayerTwoScore());
@@ -395,7 +396,33 @@ public class TankGameTest {
         assertEquals(Tank.STARTING_HEALTH, game.playerTwo.getHealth());
         assertEquals(0, game.playerTwo.dx);
         assertEquals(0, game.playerTwo.dy);
+        assertEquals(0, game.getMissiles().size());
 
+    }
+
+    @Test
+    void testPlayerOneFireMissileWithCoolDown() {
+        game.keyPressed(KeyEvent.VK_D);
+        game.keyPressed(KeyEvent.VK_SPACE);
+        game.keyPressed(KeyEvent.VK_SPACE);
+        assertEquals(1, game.getMissiles().size());
+    }
+
+    @Test
+    void testPlayerTwoFireMissileWithCoolDown() {
+        game.keyPressed(KeyEvent.VK_LEFT);
+        game.keyPressed(KeyEvent.VK_COMMA);
+        game.keyPressed(KeyEvent.VK_COMMA);
+        assertEquals(1, game.getMissiles().size());
+    }
+
+    @Test
+    void testResetMatchNotEnded() {
+        game.keyPressed(KeyEvent.VK_D);
+        game.keyPressed(KeyEvent.VK_SPACE);
+        game.keyPressed(KeyEvent.VK_R);
+        assertEquals(Tank.TANK_SPEED, game.playerOne.dx);
+        assertEquals(1, game.getMissiles().size());
     }
 
 

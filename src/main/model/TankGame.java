@@ -284,6 +284,7 @@ public class TankGame implements Writable {
                     resetTanks();
                     this.playerOneScore = 0;
                     this.playerTwoScore = 0;
+                    missiles.clear();
                 }
 
         }
