@@ -33,13 +33,13 @@ public class GameGUI extends JFrame {
     private final JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
 
 
+
     // EFFECTS: initializes a new game window
     public GameGUI() {
         super("Tank Battles");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         menuPanel = new MenuPanel(this);
         add(menuPanel);
-
         pack();
         centerOnScreen();
         setVisible(true);
@@ -48,12 +48,10 @@ public class GameGUI extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: begins a new 1P game in this frame
-    public void startNewOnePlayerGame() {
-        game = new OnePlayerGame(FRAME_WIDTH, FRAME_HEIGHT, 90);
+    public void startNewOnePlayerGame(int difficulty) {
+        game = new OnePlayerGame(FRAME_WIDTH, FRAME_HEIGHT, difficulty);
         initializeGame();
-
     }
-
 
     public void startNewTwoPlayerGame() {
         game = new TankGame(FRAME_WIDTH, FRAME_HEIGHT);
@@ -103,11 +101,12 @@ public class GameGUI extends JFrame {
         @Override
         public void keyPressed(KeyEvent e) {
             game.keyPressed(e.getKeyCode());
-            if (e.getKeyCode() == (KeyEvent.VK_T)) {
+            if (e.getKeyCode() == KeyEvent.VK_T) {
                 saveGame();
             }
         }
     }
+
 
     private void saveGame() {
         try {
