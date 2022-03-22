@@ -11,12 +11,15 @@ import model.TankGame;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class GamePanel extends JPanel {
 
     private TankGame game;
     private static final Color PLAYER_ONE_COLOUR = new Color(203, 5, 5);
     private static final Color PLAYER_TWO_COLOUR = new Color(51, 182, 51);
     private static final Color MISSILE_COLOUR = new Color(246, 170, 0);
+
+    private ImageIcon missileImage;
 
     // EFFECTS: constructs game panel with specified dimensions and background colour
     public GamePanel(TankGame g) {
@@ -88,14 +91,24 @@ public class GamePanel extends JPanel {
         }
     }
 
-    // MODIFIES: g
-    // EFFECTS: draws a single missile onto g
+
     private void drawMissile(Graphics g, Missile m) {
-        Color saved = g.getColor();
-        g.setColor(MISSILE_COLOUR);
-        g.fillOval(m.getXcoord() - Missile.MISSILE_WIDTH / 2, m.getYcoord() - Missile.MISSILE_HEIGHT / 2,
-                Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT);
-        g.setColor(saved);
+        String imgFileName;
+        if (m.getDx() > 0) {
+            imgFileName = "./data/gamebullet.png";
+        } else if (m.getDx() < 0) {
+            imgFileName = "./data/gameleftbullet.png";
+        } else if (m.getDy() < 0) {
+            imgFileName = "./data/gameupbullet.png";
+        } else {
+            imgFileName = "./data/gamedownbullet.png";
+        }
+
+        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
+                .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
+        imgIcon.paintIcon(this, g, m.getXcoord() - (Missile.MISSILE_WIDTH / 2),
+                m.getYcoord() - (Missile.MISSILE_HEIGHT / 2));
+
     }
 
 }
