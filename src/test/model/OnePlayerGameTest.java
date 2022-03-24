@@ -37,6 +37,8 @@ public class OnePlayerGameTest {
 
     @Test
     void testBotMoveUpSameXAndYDisplacement() {
+        game.playerTwo.setCoordinates(700, 700);
+        game.playerOne.setCoordinates(100, 100);
         game.setTurningCoolDown(0);
         game.tick();
         assertEquals(0, game.playerTwo.dx);

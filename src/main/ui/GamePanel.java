@@ -15,11 +15,9 @@ import java.awt.*;
 public class GamePanel extends JPanel {
 
     private TankGame game;
-    private static final Color PLAYER_ONE_COLOUR = new Color(203, 5, 5);
-    private static final Color PLAYER_TWO_COLOUR = new Color(51, 182, 51);
-    private static final Color MISSILE_COLOUR = new Color(246, 170, 0);
 
-    private ImageIcon missileImage;
+
+
 
     // EFFECTS: constructs game panel with specified dimensions and background colour
     public GamePanel(TankGame g) {
@@ -64,24 +62,68 @@ public class GamePanel extends JPanel {
     // MODIFIES: g
     // EFFECTS: draws the tank game onto g
     private void drawGame(Graphics g) {
-        drawPlayers(g);
+        drawPlayerOne(g);
+        drawPlayerTwo(g);
         drawMissiles(g);
     }
 
-    private void drawPlayers(Graphics g) {
-        drawTank(g, game.playerOne, PLAYER_ONE_COLOUR);
-        drawTank(g, game.playerTwo, PLAYER_TWO_COLOUR);
+    // MODIFIES: this, g
+    // paints player one onto g
+    private void drawPlayerOne(Graphics g) {
+        String imgFileName;
+        if (game.playerOne.getDx() < 0) {
+            imgFileName = "./data/playeroneleft.png";
+        } else if (game.playerOne.getDx() > 0) {
+            imgFileName = "./data/playeroneright.png";
+        } else if (game.playerOne.getDy() > 0) {
+            imgFileName = "./data/playeronedown.png";
+        } else {
+            imgFileName = "./data/playeroneup.png";
+        }
+        int scaledWidth;
+        int scaledHeight;
+        if (game.playerOne.getDx() == 0) {
+            scaledWidth = Tank.TANK_WIDTH;
+            scaledHeight = Tank.TANK_HEIGHT;
+        } else {
+            scaledWidth = Tank.TANK_HEIGHT;
+            scaledHeight = Tank.TANK_WIDTH;
+        }
+        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
+                .getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_DEFAULT));
+        imgIcon.paintIcon(this, g, game.playerOne.getXcoord() - (scaledWidth / 2),
+                game.playerOne.getYcoord() - (scaledHeight / 2));
     }
 
-    // MODIFIES: g
-    // EFFECTS: draws tank of specified colour onto g
-    private void drawTank(Graphics g, Tank tank, Color color) {
-        Color saved = g.getColor();
-        g.setColor(color);
-        g.fillRect(tank.getXcoord() - Tank.TANK_WIDTH / 2, tank.getYcoord() - Tank.TANK_HEIGHT / 2,
-                Tank.TANK_WIDTH, Tank.TANK_HEIGHT);
-        g.setColor(saved);
+    // MODIFIES: this, g
+    // paints player one onto g
+    private void drawPlayerTwo(Graphics g) {
+        String imgFileName;
+        if (game.playerTwo.getDx() < 0) {
+            imgFileName = "./data/playertwoleft.png";
+        } else if (game.playerTwo.getDx() > 0) {
+            imgFileName = "./data/playertworight.png";
+        } else if (game.playerTwo.getDy() > 0) {
+            imgFileName = "./data/playertwodown.png";
+        } else {
+            imgFileName = "./data/playertwoup.png";
+        }
+        int scaledWidth;
+        int scaledHeight;
+        if (game.playerTwo.getDx() == 0) {
+            scaledWidth = Tank.TANK_WIDTH;
+            scaledHeight = Tank.TANK_HEIGHT;
+        } else {
+            scaledWidth = Tank.TANK_HEIGHT;
+            scaledHeight = Tank.TANK_WIDTH;
+        }
+        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
+                .getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_DEFAULT));
+        imgIcon.paintIcon(this, g, game.playerTwo.getXcoord() - (scaledWidth / 2),
+                game.playerTwo.getYcoord() - (scaledHeight / 2));
     }
+
+
 
     // MODIFIES: g
     // EFFECTS: draws game missiles onto g
@@ -91,7 +133,8 @@ public class GamePanel extends JPanel {
         }
     }
 
-
+    // MODIFIES: this, g
+    // EFFECTS: paints the missile image icon onto g
     private void drawMissile(Graphics g, Missile m) {
         String imgFileName;
         if (m.getDx() > 0) {
