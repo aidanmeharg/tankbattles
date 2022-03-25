@@ -274,7 +274,7 @@ public class TankGame implements Writable {
                 this.playerTwo.setDirection(Tank.TANK_SPEED, 0);
                 break;
             case KeyEvent.VK_COMMA:
-                if (playerOne.getCoolDown() == 0) {
+                if (playerTwo.getCoolDown() == 0) {
                     audioPlayer.playSound(MISSILE_FIRE_SOUND, false);
                 }
                 this.playerFireMissile(playerTwo);

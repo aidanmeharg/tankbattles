@@ -14,7 +14,45 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
-    private TankGame game;
+    private final TankGame game;
+
+    private static final ImageIcon P1_UP = new ImageIcon(new ImageIcon("./data/playeroneup.png")
+            .getImage().getScaledInstance(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P1_DOWN = new ImageIcon(new ImageIcon("./data/playeronedown.png")
+            .getImage().getScaledInstance(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P1_LEFT = new ImageIcon(new ImageIcon("./data/playeroneleft.png")
+            .getImage().getScaledInstance(Tank.TANK_HEIGHT, Tank.TANK_WIDTH, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P1_RIGHT = new ImageIcon(new ImageIcon("./data/playeroneright.png")
+            .getImage().getScaledInstance(Tank.TANK_HEIGHT, Tank.TANK_WIDTH, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P2_UP = new ImageIcon(new ImageIcon("./data/playertwoup.png")
+            .getImage().getScaledInstance(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P2_DOWN = new ImageIcon(new ImageIcon("./data/playertwodown.png")
+            .getImage().getScaledInstance(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P2_LEFT = new ImageIcon(new ImageIcon("./data/playertwoleft.png")
+            .getImage().getScaledInstance(Tank.TANK_HEIGHT, Tank.TANK_WIDTH, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon P2_RIGHT = new ImageIcon(new ImageIcon("./data/playertworight.png")
+            .getImage().getScaledInstance(Tank.TANK_HEIGHT, Tank.TANK_WIDTH, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon MISSILE_UP = new ImageIcon(new ImageIcon("./data/gameupbullet.png")
+            .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon MISSILE_DOWN = new ImageIcon(new ImageIcon("./data/gamedownbullet.png")
+            .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon MISSILE_RIGHT = new ImageIcon(new ImageIcon("./data/gamebullet.png")
+            .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
+
+    private static final ImageIcon MISSILE_LEFT = new ImageIcon(new ImageIcon("./data/gameleftbullet.png")
+            .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
+
+
 
 
 
@@ -70,15 +108,15 @@ public class GamePanel extends JPanel {
     // MODIFIES: this, g
     // paints player one onto g
     private void drawPlayerOne(Graphics g) {
-        String imgFileName;
+        ImageIcon imageIcon;
         if (game.playerOne.getDx() < 0) {
-            imgFileName = "./data/playeroneleft.png";
+            imageIcon = P1_LEFT;
         } else if (game.playerOne.getDx() > 0) {
-            imgFileName = "./data/playeroneright.png";
+            imageIcon = P1_RIGHT;
         } else if (game.playerOne.getDy() > 0) {
-            imgFileName = "./data/playeronedown.png";
+            imageIcon = P1_DOWN;
         } else {
-            imgFileName = "./data/playeroneup.png";
+            imageIcon = P1_UP;
         }
         int scaledWidth;
         int scaledHeight;
@@ -89,24 +127,22 @@ public class GamePanel extends JPanel {
             scaledWidth = Tank.TANK_HEIGHT;
             scaledHeight = Tank.TANK_WIDTH;
         }
-        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
-                .getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_DEFAULT));
-        imgIcon.paintIcon(this, g, game.playerOne.getXcoord() - (scaledWidth / 2),
+        imageIcon.paintIcon(this, g, game.playerOne.getXcoord() - (scaledWidth / 2),
                 game.playerOne.getYcoord() - (scaledHeight / 2));
     }
 
     // MODIFIES: this, g
     // paints player one onto g
     private void drawPlayerTwo(Graphics g) {
-        String imgFileName;
+        ImageIcon imageIcon;
         if (game.playerTwo.getDx() < 0) {
-            imgFileName = "./data/playertwoleft.png";
+            imageIcon = P2_LEFT;
         } else if (game.playerTwo.getDx() > 0) {
-            imgFileName = "./data/playertworight.png";
+            imageIcon = P2_RIGHT;
         } else if (game.playerTwo.getDy() > 0) {
-            imgFileName = "./data/playertwodown.png";
+            imageIcon = P2_DOWN;
         } else {
-            imgFileName = "./data/playertwoup.png";
+            imageIcon = P2_UP;
         }
         int scaledWidth;
         int scaledHeight;
@@ -117,9 +153,7 @@ public class GamePanel extends JPanel {
             scaledWidth = Tank.TANK_HEIGHT;
             scaledHeight = Tank.TANK_WIDTH;
         }
-        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
-                .getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_DEFAULT));
-        imgIcon.paintIcon(this, g, game.playerTwo.getXcoord() - (scaledWidth / 2),
+        imageIcon.paintIcon(this, g, game.playerTwo.getXcoord() - (scaledWidth / 2),
                 game.playerTwo.getYcoord() - (scaledHeight / 2));
     }
 
@@ -136,20 +170,18 @@ public class GamePanel extends JPanel {
     // MODIFIES: this, g
     // EFFECTS: paints the missile image icon onto g
     private void drawMissile(Graphics g, Missile m) {
-        String imgFileName;
+        ImageIcon imageIcon;
         if (m.getDx() > 0) {
-            imgFileName = "./data/gamebullet.png";
+            imageIcon = MISSILE_RIGHT;
         } else if (m.getDx() < 0) {
-            imgFileName = "./data/gameleftbullet.png";
+            imageIcon = MISSILE_LEFT;
         } else if (m.getDy() < 0) {
-            imgFileName = "./data/gameupbullet.png";
+            imageIcon = MISSILE_UP;
         } else {
-            imgFileName = "./data/gamedownbullet.png";
+            imageIcon = MISSILE_DOWN;
         }
 
-        ImageIcon imgIcon = new ImageIcon(new ImageIcon(imgFileName)
-                .getImage().getScaledInstance(Missile.MISSILE_WIDTH, Missile.MISSILE_HEIGHT, Image.SCALE_DEFAULT));
-        imgIcon.paintIcon(this, g, m.getXcoord() - (Missile.MISSILE_WIDTH / 2),
+        imageIcon.paintIcon(this, g, m.getXcoord() - (Missile.MISSILE_WIDTH / 2),
                 m.getYcoord() - (Missile.MISSILE_HEIGHT / 2));
 
     }

@@ -5,6 +5,10 @@ import model.OnePlayerGame;
 import javax.swing.*;
 import java.awt.*;
 
+/*
+ * menu panel shown on startup to allow for game selection
+ */
+
 
 public class MenuPanel extends JPanel {
 
@@ -13,7 +17,9 @@ public class MenuPanel extends JPanel {
     private final JButton newTwoPlayerGameButton;
     private final JButton loadSavedTwoPlayerGameButton;
     private final JButton loadSavedOnePlayerGameButton;
+    private final JLabel menuImage;
 
+    // EFFECTS: constructs a new MenuPanel
     public MenuPanel(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
         newOnePlayerGameButton = new JButton("New 1 Player Game");
@@ -25,16 +31,23 @@ public class MenuPanel extends JPanel {
         loadSavedOnePlayerGameButton = new JButton("Load Saved 1P Game");
         loadSavedOnePlayerGameButton.addActionListener(e -> gameGUI.loadOnePlayerGame());
 
+        menuImage = new JLabel();
+        menuImage.setIcon(new ImageIcon("./data/menuimage.png"));
 
-        setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        setLayout(new GridLayout(4, 1));
+
+        setPreferredSize(new Dimension(500, 550));
+
+        add(menuImage);
         add(newOnePlayerGameButton);
         add(newTwoPlayerGameButton);
         add(loadSavedOnePlayerGameButton);
         add(loadSavedTwoPlayerGameButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: constructs a second set of difficulty options for 1P games
     private void setupDifficultyMenu() {
+        remove(menuImage);
         remove(newOnePlayerGameButton);
         remove(newTwoPlayerGameButton);
         remove(loadSavedTwoPlayerGameButton);

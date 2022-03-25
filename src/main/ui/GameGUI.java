@@ -12,6 +12,10 @@ import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/*
+ * main JFrame that contains and handles all elements of tank game, startup menus etc.
+ */
+
 public class GameGUI extends JFrame {
 
     private static final int REFRESH_INTERVAL = 10;
@@ -30,6 +34,7 @@ public class GameGUI extends JFrame {
     private final MenuPanel menuPanel;
     private GamePanel gamePanel;
     private ScorePanel scorePanel;
+
     private final JsonReader twoPlayerJsonReader = new JsonReader(JSON_STORE);
     private final JsonWriter twoPlayerJsonWriter = new JsonWriter(JSON_STORE);
     private final JsonReader onePlayerJsonReader = new JsonReader(ONE_PLAYER_JSON_STORE);
@@ -59,13 +64,16 @@ public class GameGUI extends JFrame {
         initializeGame();
     }
 
+    // MODIFIES: this
+    // EFFECTS: begins a new 2P game in this frame
     public void startNewTwoPlayerGame() {
         game = new TankGame(FRAME_WIDTH, FRAME_HEIGHT);
         onePlayer = false;
         initializeGame();
     }
 
-    // EFFECTS: loads the saved game from source file
+    // MODIFIES: this
+    // EFFECTS: loads the saved 2P game from source file and runs it in this frame
     public void loadTwoPlayerGame() {
         try {
             game = twoPlayerJsonReader.readTwoPlayerGame();
@@ -76,6 +84,8 @@ public class GameGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads the saved 1P game from source file and runs it in this frame
     public void loadOnePlayerGame() {
         try {
             game = onePlayerJsonReader.readOnePlayerGame();
@@ -85,6 +95,8 @@ public class GameGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up the game in this frame
     private void initializeGame() {
         remove(menuPanel);
         audioPlayer.stopMusic();
@@ -100,6 +112,7 @@ public class GameGUI extends JFrame {
         addTimer();
     }
 
+    // MODIFIES: game, gamePanel, scorePanel
     // EFFECTS: adds a timer that ticks game every REFRESH_INTERVAL milliseconds
     private void addTimer() {
         Timer t = new Timer(REFRESH_INTERVAL, e -> {
@@ -124,6 +137,7 @@ public class GameGUI extends JFrame {
     }
 
 
+    // EFFECTS: saves current game to file
     private void saveGame() {
         if (onePlayer) {
             try {

@@ -82,6 +82,7 @@ public class JsonReader {
         return game;
     }
 
+    // EFFECTS: parses 1P game from JSON object and returns it
     private OnePlayerGame parseOnePlayerGame(JSONObject jsonObject) {
         int xboundary = jsonObject.getInt("xboundary");
         int yboundary = jsonObject.getInt("yboundary");

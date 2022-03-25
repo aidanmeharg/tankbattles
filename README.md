@@ -1,4 +1,4 @@
-# 2 Player Tank Game 
+# Tank Battles 
 
 > ### By: Aidan Meharg 20112579
 
@@ -9,7 +9,7 @@ Both players will operate their respective tanks with their own
 keyboard commands:
 - Player 1 using **"w, a, s, d"** keys for movement and **spacebar** to shoot
 - Player 2 using **arrow** keys for movement and **"<"** to shoot
-- Players may save their current game at any time by pressing **"6"**
+- Players may save their current game at any time by pressing **"t"**
 
 Each player will begin with 3 lives which can be lost in 2 ways:
 - Driving your vehicle into the boundaries (edge of screen)
