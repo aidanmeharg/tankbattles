@@ -1,5 +1,7 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.OnePlayerGame;
 import model.TankGame;
 import persistence.JsonReader;
@@ -9,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -47,7 +51,18 @@ public class GameGUI extends JFrame {
     // EFFECTS: initializes a new game window
     public GameGUI() {
         super("Tank Battles");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                System.out.println("Event Log: ");
+                for (Event e : EventLog.getInstance()) {
+                    System.out.println(e.getDescription());
+                }
+                System.out.println("Thank you for playing!");
+                System.exit(0);
+            }
+        });
         menuPanel = new MenuPanel(this);
         add(menuPanel);
         pack();

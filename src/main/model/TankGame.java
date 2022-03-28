@@ -68,14 +68,29 @@ public class TankGame implements Writable {
         for (Missile next : missiles) {
             next.move();
         }
-        handlePlayerBoundaries(playerOne);
-        handlePlayerBoundaries(playerTwo);
-        handlePlayerMissileCollisions(playerOne);
-        handlePlayerMissileCollisions(playerTwo);
-        filterBoundaryMissiles();
+        handleCollisions();
         if (checkGameOver()) {
             resetGame();
+            resultReceived = false;
         }
+        if (isEnded() && !resultReceived) {
+            EventLog.getInstance().logEvent(new Event(getStringResult()));
+            resultReceived = true;
+        }
+    }
+
+    private void handleCollisions() {
+        handlePlayerBoundaries(playerOne);
+        handlePlayerBoundaries(playerTwo);
+        if (handlePlayerMissileCollisions(playerOne)) {
+            EventLog.getInstance().logEvent(new Event("Player one hit by missile at: ("
+                    + playerOne.xcoord + "," + playerOne.ycoord + ")"));
+        }
+        if (handlePlayerMissileCollisions(playerTwo)) {
+            EventLog.getInstance().logEvent(new Event("Player two hit by missile at: ("
+                    + playerTwo.xcoord + "," + playerTwo.ycoord + ")"));
+        }
+        filterBoundaryMissiles();
     }
 
     // MODIFIES: this
@@ -184,16 +199,19 @@ public class TankGame implements Writable {
     // MODIFIES: this
     // EFFECTS: checks for missiles that have hit the given player
     //          then deals damage and removes appropriate missiles
-    protected void handlePlayerMissileCollisions(Tank player) {
+    protected Boolean handlePlayerMissileCollisions(Tank player) {
         ArrayList<Missile> toRemove = new ArrayList<>();
+        boolean hit = false;
         for (Missile next : missiles) {
             if (player.checkTankHitByMissile(next)) {
+                hit = true;
                 player.decreaseHealth();
                 toRemove.add(next);
                 audioPlayer.playSound(TANK_HIT_SOUND, false);
             }
         }
         missiles.removeAll(toRemove);
+        return hit;
     }
 
 
@@ -258,6 +276,8 @@ public class TankGame implements Writable {
             case KeyEvent.VK_SPACE:
                 if (playerOne.getCoolDown() == 0) {
                     audioPlayer.playSound(MISSILE_FIRE_SOUND, false);
+                    EventLog.getInstance().logEvent(new Event("Player one fires missile at: ("
+                            + playerOne.xcoord + "," + playerOne.ycoord + ")"));
                 }
                 this.playerFireMissile(playerOne);
                 break;
@@ -276,6 +296,8 @@ public class TankGame implements Writable {
             case KeyEvent.VK_COMMA:
                 if (playerTwo.getCoolDown() == 0) {
                     audioPlayer.playSound(MISSILE_FIRE_SOUND, false);
+                    EventLog.getInstance().logEvent(new Event("Player two fires missile at: ("
+                            + playerTwo.xcoord + "," + playerTwo.ycoord + ")"));
                 }
                 this.playerFireMissile(playerTwo);
                 break;
@@ -285,8 +307,8 @@ public class TankGame implements Writable {
                     this.playerOneScore = 0;
                     this.playerTwoScore = 0;
                     missiles.clear();
+                    EventLog.getInstance().logEvent(new Event("Game Reset"));
                 }
-
         }
     }
 

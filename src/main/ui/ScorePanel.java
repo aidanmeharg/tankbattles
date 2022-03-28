@@ -14,6 +14,7 @@ public class ScorePanel extends JPanel {
     private final JLabel playerTwoHealthDisplay;
     private final JLabel gameScoreDisplay;
 
+
     // EFFECTS: constructs the score panel with labels
     public ScorePanel(TankGame game) {
         this.game = game;

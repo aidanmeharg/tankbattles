@@ -34,6 +34,31 @@ many consecutive shots
 - As a user, I want to have the option to load the previous game, or start a new one
 
 
+### Phase 4: Task 2
+
+- Event Log:
+- Player two fires missile at: (573,470)
+- Player two fires missile at: (63,236)
+- Player one hit by missile at: (50,70)
+- Player two fires missile at: (207,74)
+- Player one hit by missile at: (50,70)
+- Player two fires missile at: (198,74)
+- Player one hit by missile at: (50,70)
+- Player one fires missile at: (332,298)
+- Player two hit by missile at: (318,530)
+- Player one fires missile at: (314,475)
+- Player one fires missile at: (209,502)
+- Player two hit by missile at: (445,530)
+- Player two fires missile at: (690,320)
+- Player one hit by missile at: (695,70)
+- Player two fires missile at: (510,77)
+- Player one hit by missile at: (316,70)
+- Player two fires missile at: (705,530)
+- Player one hit by missile at: (50,541)
+- GREEN WINS
+- Thank you for playing!
+
+
 
 
 

@@ -15,6 +15,8 @@ import java.awt.*;
 public class GamePanel extends JPanel {
 
     private final TankGame game;
+    private JProgressBar playerOneBar;
+    private JProgressBar playerTwoBar;
 
     private static final ImageIcon P1_UP = new ImageIcon(new ImageIcon("./data/playeroneup.png")
             .getImage().getScaledInstance(Tank.TANK_WIDTH, Tank.TANK_HEIGHT, Image.SCALE_DEFAULT));
@@ -62,6 +64,13 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(g.xboundary, g.yboundary));
         setBackground(Color.BLACK);
         this.game = g;
+        playerOneBar = new JProgressBar(0, Tank.STARTING_HEALTH);
+        playerOneBar.setPreferredSize(new Dimension(100, 50));
+        playerTwoBar = new JProgressBar(0, Tank.STARTING_HEALTH);
+        playerTwoBar.setPreferredSize(new Dimension(100, 50));
+        add(playerOneBar);
+        add(playerTwoBar);
+
     }
 
     @Override
@@ -105,8 +114,19 @@ public class GamePanel extends JPanel {
         drawMissiles(g);
     }
 
+    private void drawHealthBars() {
+        playerOneBar.setValue(game.playerOne.getHealth());
+        playerOneBar.setLocation(game.playerOne.getXcoord() - 50, game.playerOne.getYcoord() - 75);
+        playerOneBar.repaint();
+
+        playerTwoBar.setValue(game.playerTwo.getHealth());
+        playerTwoBar.setLocation(game.playerTwo.getXcoord() - 50, game.playerTwo.getYcoord() - 75);
+        playerTwoBar.repaint();
+    }
+
+
     // MODIFIES: this, g
-    // paints player one onto g
+    // EFFECTS: paints player one onto g
     private void drawPlayerOne(Graphics g) {
         ImageIcon imageIcon;
         if (game.playerOne.getDx() < 0) {
@@ -132,7 +152,7 @@ public class GamePanel extends JPanel {
     }
 
     // MODIFIES: this, g
-    // paints player one onto g
+    // EFFECTS: paints player one onto g
     private void drawPlayerTwo(Graphics g) {
         ImageIcon imageIcon;
         if (game.playerTwo.getDx() < 0) {
