@@ -59,6 +59,17 @@ many consecutive shots
 - Thank you for playing!
 
 
+### Phase 4: Task 3
+
+Refactoring to improve design:
+
+- apply singleton design pattern to the AudioPlayer class
+-> at no point should there be more than one AudioPlayer instantiated, it should also be globally accessible
+- change implementation of JsonReader + JsonWriter classes to accept more than one source file
+  (not great having 2 readers and writers within the GUI to open 2 types of game)
+- make Tank class implement Writable interface to make write() method in TankGame less clunky and more 
+adaptable to future changes
+
 
 
 
