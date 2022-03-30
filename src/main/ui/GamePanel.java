@@ -112,6 +112,7 @@ public class GamePanel extends JPanel {
         drawPlayerOne(g);
         drawPlayerTwo(g);
         drawMissiles(g);
+        //drawHealthBars();
     }
 
     private void drawHealthBars() {
