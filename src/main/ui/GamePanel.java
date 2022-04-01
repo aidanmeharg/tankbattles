@@ -115,7 +115,9 @@ public class GamePanel extends JPanel {
         //drawHealthBars();
     }
 
-    private void drawHealthBars() {
+    private void drawHealthBars(Graphics g) {
+        Color saved = g.getColor();
+
         playerOneBar.setValue(game.playerOne.getHealth());
         playerOneBar.setLocation(game.playerOne.getXcoord() - 50, game.playerOne.getYcoord() - 75);
         playerOneBar.repaint();

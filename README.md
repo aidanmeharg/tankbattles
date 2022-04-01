@@ -69,6 +69,7 @@ Refactoring to improve design:
   (not great having 2 readers and writers within the GUI to open 2 types of game)
 - make Tank class implement Writable interface to make write() method in TankGame less clunky and more 
 adaptable to future changes
+- implement the observer pattern to TankGame and ScorePanel to reduce coupling
 
 
 
