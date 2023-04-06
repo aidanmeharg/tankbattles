@@ -25,6 +25,15 @@ past playing simple 2-player games (ex. Fireboy and Watergirl, Tanks 2 etc.)
 
 ### Screenshots
 
+<h3>
+  <img src="./Screen Shot 2023-04-06 at 3.57.28 PM.png" height="350px">
+  <img src="./Screen Shot 2023-04-06 at 3.58.18 PM.png" height="350px">
+</h3>
+
+<h3>
+  <img src="./Screen Shot 2023-04-06 at 3.59.40 PM.png" height="350px">
+  <img src="./Screen Shot 2023-04-06 at 3.59.58 PM.png" height="350px">
+</h3>
 
 ### User Stories
 
